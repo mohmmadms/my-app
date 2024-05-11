@@ -2,7 +2,15 @@ const  Course  = require("../models/courseModel");
 
 const homepageForCourses = async (req, res, next) => {
   try {
-    const courses = await Course.find({}).sort({ createdAt: -1 });
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const skip = (page - 1) * limit;
+
+    const courses = await Course.find({})
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+    
     res.status(200).json(courses);
   } catch (error) {
     next(new Error('Server error'));
@@ -22,10 +30,10 @@ const addNewCourse = async (req, res) => {
       'seats',
     ];
 
-    const missingFields = requiredFields.filter(field => !req.body[field]);
-
-    if (missingFields.length > 0) {
-      return res.status(400).json({ message: `The following fields are required: ${missingFields.join(', ')}` });
+    for (const field of requiredFields) {
+      if (!req.body[field]) {
+        return res.status(400).json({ message: `The '${field}' field is required` });
+      }
     }
 
     const result = await Course.create(req.body);
