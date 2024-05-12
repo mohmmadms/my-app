@@ -26,7 +26,7 @@ app.get('/test', (req, res) => {
 })
 
 app.use('/api/users', userRoutes);
-app.use('/', courseRoutes);
+app.use('/api', courseRoutes);
 app.use('/api', enrolRoutes)
 
 app.listen(port, () => {
