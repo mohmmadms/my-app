@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-
 const Login = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -29,7 +28,7 @@ const Login = () => {
       setPassword('');
       setError('');
     } catch (error) {
-      console.error('Login error:', error.response.data.message);
+      console.error('Login error:', error.response.data.message.replace(/'/g, '&apos;'));
       setError('Invalid credentials. Please try again.');
     }
   };
