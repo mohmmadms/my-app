@@ -6,14 +6,17 @@ const homepageForCourses = async (req, res, next) => {
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
     const skip = (page - 1) * limit;
 
+    // Use lean() to return plain JavaScript objects instead of Mongoose documents
     const courses = await Course.find({})
+      .select('-enrolledUsers') // Exclude the 'enrolledUsers' field from the query
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(limit);
-    
+      .limit(limit)
+      .lean(); // Convert the query result to plain objects
+
     res.status(200).json(courses);
   } catch (error) {
-    next(new Error('Server error'));
+    next(error); // Pass the error to the error handling middleware
   }
 };
 
