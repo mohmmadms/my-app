@@ -6,7 +6,7 @@ const courseController = require('../controllers/courseController');
 const adminMiddleware = require('../middleware/adminMiddleware');
 const authMiddleware = require('../middleware/authMiddleware');
 // Route for getting the homepage courses
-router.get('/courses', courseController.homepageForCourses);
+router.get('/', courseController.homepageForCourses);
 
 // Route for adding a new course
 router.post('/courses',authMiddleware, adminMiddleware,courseController.addNewCourse);
