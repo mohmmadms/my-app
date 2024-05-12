@@ -45,7 +45,7 @@ const ChangePasswordPage = () => {
     if (!token) {
       router.push('/Login');
     }
-  }, []);
+  }, [router]);
 
   return (
     <div 

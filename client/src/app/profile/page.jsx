@@ -55,7 +55,7 @@ const ProfilePageWithEdit = () => {
     if (!token) {
       router.push('/Login'); 
     }
-  }, []);
+  }, [router]);
 
   return (
     <div>
