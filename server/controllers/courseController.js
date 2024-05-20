@@ -5,18 +5,29 @@ const homepageForCourses = async (req, res, next) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
     const skip = (page - 1) * limit;
+    
+    
+    const searchQuery = {};
+    
+    if (req.query.title) {
+      searchQuery.title = { $regex: req.query.title, $options: 'i' }; 
+    }
+    
+    if (req.query.category) {
+      searchQuery.category = { $regex: req.query.category, $options: 'i' }; 
+    }
 
-    // Use lean() to return plain JavaScript objects instead of Mongoose documents
-    const courses = await Course.find({})
-      .select('-enrolledUsers') // Exclude the 'enrolledUsers' field from the query
+    
+    const courses = await Course.find(searchQuery)
+      .select('-enrolledUsers') 
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .lean(); // Convert the query result to plain objects
+      .lean(); 
 
     res.status(200).json(courses);
   } catch (error) {
-    next(error); // Pass the error to the error handling middleware
+    next(error); 
   }
 };
 
@@ -31,6 +42,7 @@ const addNewCourse = async (req, res) => {
       'startDate',
       'endDate',
       'seats',
+      'description',
     ];
 
     for (const field of requiredFields) {

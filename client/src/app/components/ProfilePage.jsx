@@ -28,34 +28,39 @@ const ProfilePage = () => {
   const formatDate = (dateString) => {
     return dateString ? new Date(dateString).toLocaleDateString('en-US') : 'Not specified';
   };
+  
 
   return (
-    <div className="profile-container">
-      <div className="profile-content">
-        <h2 className="profile-heading">Profile</h2>
-        {loading && <div>Loading...</div>}
-        {error && <div className="error-text">{error}</div>}
+    <div className="max-w-4xl mx-auto p-8">
+      <div className="bg-white rounded-lg shadow-lg p-8">
+        <h2 className="text-2xl font-bold mb-4">Profile</h2>
+        {loading && <div className="text-red-500">Loading...</div>}
+        {error && <div className="text-red-500">{error}</div>}
         {profileData && (
-          <div className="profile-details">
-            <div className="profile-item">
-              <span>Name:</span>
-              <span>{profileData.Name}</span>
+          <div className="mt-4">
+            <div className="mb-4">
+              <p className="font-semibold">Name:</p>
+              <p>{profileData.Name}</p>
             </div>
-            <div className="profile-item">
-              <span>Email:</span>
-              <span>{profileData.Email}</span>
+            <div className="mb-4">
+              <p className="font-semibold">Email:</p>
+              <p>{profileData.Email}</p>
             </div>
-            <div className="profile-item">
-              <span>Location:</span>
-              <span>{profileData.Location || 'Not specified'}</span>
+            <div className="mb-4">
+              <p className="font-semibold">Phone:</p>
+              <p>{profileData.phoneNumber || 'Not specified'}</p>
             </div>
-            <div className="profile-item">
-              <span>Nationality:</span>
-              <span>{profileData.Nationality || 'Not specified'}</span>
+            <div className="mb-4">
+              <p className="font-semibold">Location:</p>
+              <p>{profileData.Location || 'Not specified'}</p>
             </div>
-            <div className="profile-item">
-              <span>Date of Birth:</span>
-              <span>{formatDate(profileData.DateOfBirth)}</span>
+            <div className="mb-4">
+              <p className="font-semibold">Nationality:</p>
+              <p>{profileData.Nationality || 'Not specified'}</p>
+            </div>
+            <div className="mb-4">
+              <p className="font-semibold">Date of Birth:</p>
+              <p>{formatDate(profileData.DateOfBirth)}</p>
             </div>
           </div>
         )}
