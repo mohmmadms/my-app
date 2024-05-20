@@ -34,12 +34,10 @@ const userSchema = new Schema({
     location: {
         type: String,
     },
-    ////////// added 
-    cart: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Cart",
+    phoneNumber:{
+        type:String,
     },
-
+    
 },
     {
         timestamps: true,

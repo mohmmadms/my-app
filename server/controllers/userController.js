@@ -9,7 +9,7 @@ const generateToken = (userId) => {
 
 // Sign Up
 const signup = async (req, res, next) => {
-  const { name, email, password, isAdmin, profileImage, location, nationality, dateOfBirth } = req.body;
+  const { name, email, password, isAdmin, profileImage, location, nationality, dateOfBirth ,phoneNumber } = req.body;
 
   if (!name || !email || !password) {
     return res.status(400).json({ error: 'Please include all fields' });
@@ -34,12 +34,14 @@ const signup = async (req, res, next) => {
       location,
       nationality,
       dateOfBirth,
+      phoneNumber,
     });
 
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
+      isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
   } catch (error) {
@@ -62,6 +64,7 @@ const login = async (req, res, next) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
   } catch (error) {
@@ -78,7 +81,8 @@ const profile = async (req, res, next) => {
       Name: req.user.name,
       Location: req.user.location,
       Nationality: req.user.nationality,
-      DateOfBirth: req.user.dateOfBirth
+      DateOfBirth: req.user.dateOfBirth,
+      phoneNumber: req.user.phoneNumber
     };
     res.status(200).json(user);
   } catch (error) {
@@ -103,7 +107,7 @@ const signout = async (req, res, next) => {
 // Edit Profile
 const editProfile = async (req, res, next) => {
   try {
-    const { name, email, password, location, nationality, dateOfBirth } = req.body;
+    const { name, email, password, location, nationality, dateOfBirth ,phoneNumber} = req.body;
     const userId = req.user._id;
 
     const updates = {};
@@ -117,6 +121,7 @@ const editProfile = async (req, res, next) => {
     if (location) updates.location = location;
     if (nationality) updates.nationality = nationality;
     if (dateOfBirth) updates.dateOfBirth = dateOfBirth;
+    if (phoneNumber) updates.phoneNumber = phoneNumber;
 
     const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });
 
@@ -130,7 +135,8 @@ const editProfile = async (req, res, next) => {
       Name: updatedUser.name,
       Location: updatedUser.location,
       Nationality: updatedUser.nationality,
-      DateOfBirth: updatedUser.dateOfBirth
+      DateOfBirth: updatedUser.dateOfBirth,
+      PhoneNumber: updatedUser.phoneNumber
     };
 
     res.status(200).json(userProfile);

@@ -4,7 +4,7 @@ const User = require('../models/userModel');
 
 exports.enrollInCourse = async (req, res) => {
     const { courseId } = req.params;
-    const userId = req.user._id; // Extract user ID from req.user
+    const userId = req.user._id;
 
     try {
         const course = await Course.findById(courseId);

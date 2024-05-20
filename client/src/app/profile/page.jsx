@@ -5,7 +5,10 @@ import ProfilePage from '../components/ProfilePage';
 import EditProfileForm from '../components/EditProfile'; 
 import Logout from '../components/Logout';
 import DeleteAccountButton from '../components/DeleteAccountButton';
+import Navbar from '../components/Navbar';
 import { useRouter } from 'next/navigation';
+import Footer from '../components/Footer';
+import Sidebar from '../components/SideBar';
 
 
 const ProfilePageWithEdit = () => {
@@ -58,33 +61,41 @@ const ProfilePageWithEdit = () => {
   }, [router]);
 
   return (
-    <div>
-      <div className="container py-5">
-        <div className="row justify-content-center">
-          <div className="col-md-8">
-            <div className="card">
-              <div className="card-body">
-                {!editMode ? (
-                  <>
-                    {profileData && <ProfilePage profileData={profileData} />} 
-                    <button onClick={toggleEditMode} className="btn btn-primary mt-3">Edit Profile</button>
-                    <div className="d-flex justify-content-between mt-3">
-                    <Logout/>
-                    <DeleteAccountButton/>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <EditProfileForm profileData={profileData} onSuccess={handleProfileUpdate} /> 
-                    <button onClick={toggleEditMode} className="btn btn-secondary mt-3">Cancel</button> 
-                  </>
-                )}
+    <>
+    <Navbar />
+    <div className="container mx-auto py-5">
+      <div className="max-w-md mx-auto">
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          {!editMode ? (
+            <>
+              {profileData && <ProfilePage profileData={profileData} />} 
+              <button 
+                onClick={toggleEditMode} 
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mt-3 transition-colors duration-300 w-full"
+              >
+                Edit Profile
+              </button>
+              <div className="flex justify-between mt-3">
+                <Logout />
+                <DeleteAccountButton />
               </div>
-            </div>
-          </div>
+            </>
+          ) : (
+            <>
+              <EditProfileForm profileData={profileData} onSuccess={handleProfileUpdate} /> 
+              <button 
+                onClick={toggleEditMode} 
+                className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-md mt-3 transition-colors duration-300 w-full"
+              >
+                Cancel
+              </button> 
+            </>
+          )}
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 
