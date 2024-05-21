@@ -39,7 +39,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3001/api/users/signup', {
+      const response = await axios.post('https://my-app-umber-sigma.vercel.app/api/users/signup', {
         name,
         email,
         password,

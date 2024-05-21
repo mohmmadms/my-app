@@ -15,7 +15,22 @@ const port = process.env.PORT
 
 
 
-app.use(cors());
+const allowedOrigins = ['http://localhost:3000', 'https://my-app-fe.vercel.app'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));//true
 
 //build-in middleware 

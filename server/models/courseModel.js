@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-    // Define your schema fields here
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -55,6 +54,12 @@ const courseSchema = new mongoose.Schema({
     }],
 }, { timestamps: true });
 
+// Add indexes
+courseSchema.index({ title: 1 });
+courseSchema.index({ category: 1 });
+courseSchema.index({ createdAt: -1 });
+
 const Course = mongoose.model('Course', courseSchema);
 
 module.exports = Course;
+

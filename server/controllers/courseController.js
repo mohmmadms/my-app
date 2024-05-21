@@ -5,25 +5,23 @@ const homepageForCourses = async (req, res, next) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
     const skip = (page - 1) * limit;
-    
-    
+
     const searchQuery = {};
-    
     if (req.query.title) {
       searchQuery.title = { $regex: req.query.title, $options: 'i' }; 
     }
-    
     if (req.query.category) {
       searchQuery.category = { $regex: req.query.category, $options: 'i' }; 
     }
 
-    
+    console.time('homepageForCourses-query');
     const courses = await Course.find(searchQuery)
-      .select('-enrolledUsers') 
+      .select('-enrolledUsers')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .lean(); 
+      .lean();
+    console.timeEnd('homepageForCourses-query');
 
     res.status(200).json(courses);
   } catch (error) {
@@ -74,7 +72,11 @@ const deleteCourse = async (req, res) => {
 const getCourseById = async (req, res) => {
   try {
     const { id } = req.params;
-    const course = await Course.findById(id);
+
+    console.time('getCourseById-query');
+    const course = await Course.findById(id).lean();
+    console.timeEnd('getCourseById-query');
+
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
