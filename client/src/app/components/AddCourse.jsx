@@ -13,7 +13,11 @@ const AddCourse = () => {
         endDate: '',
         seats: '',
         description:'',
+        tableOfContent:'',
+        objectives:'',
+        outcome:'',
     });
+    const [courseImage, setCourseImage] = useState(null);
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
@@ -26,13 +30,25 @@ const AddCourse = () => {
         setEventData({ ...eventData, [key]: value });
     };
 
+    const handleImageChange = (e) => {
+        setCourseImage(e.target.files[0]);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:3001/api/courses', eventData, {
+            const formData = new FormData();
+            for (const key in eventData) {
+                formData.append(key, eventData[key]);
+            }
+            if (courseImage) {
+                formData.append('courseImage', courseImage);
+            }
+
+            const response = await axios.post('http://localhost:3001/api/courses', formData, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`,
                 },
             });
@@ -49,7 +65,11 @@ const AddCourse = () => {
                 endDate: '',
                 seats: '',
                 description:'',
+                tableOfContent:'',
+                objectives:'',
+                outcome:'',
             });
+            setCourseImage(null);
         } catch (error) {
             console.error('Error:', error.response.data);
             setError('An error occurred while adding the event.');
@@ -75,27 +95,16 @@ const AddCourse = () => {
                         />
                     </div>
                     <div className="space-y-2">
-                    <label htmlFor="startTime" className="block text-sm font-medium text-gray-700">Start Time</label>
-                    <input
-                        type="time"
-                        id="startTime"
-                        name="startTime"
-                        onChange={handleChange}
-                        value={eventData.startTime}
-                        className="block w-full p-2 border border-gray-300 rounded-md"
-                    />
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="endTime" className="block text-sm font-medium text-gray-700">End Time</label>
-                    <input
-                        type="time"
-                        id="endTime"
-                        name="endTime"
-                        onChange={handleChange}
-                        value={eventData.endTime}
-                        className="block w-full p-2 border border-gray-300 rounded-md"
-                    />
-                </div>
+                        <label htmlFor="time" className="block text-sm font-medium text-gray-700">Time</label>
+                        <input
+                            type="text" 
+                            id="time"
+                            name="time"
+                            onChange={handleChange}
+                            value={eventData.time}
+                            className="block w-full p-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
                     <div className="space-y-2">
                         <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
                         <input
@@ -128,10 +137,10 @@ const AddCourse = () => {
                             className="block w-full p-2 border border-gray-300 rounded-md"
                         >
                             <option value="">Select Category</option>
-                            <option value="Music">Music</option>
-                            <option value="Art">Art</option>
-                            <option value="Sport">Sport</option>
-                            <option value="Technology">Technology</option>
+                            <option value="programming">programming</option>
+                            <option value="Electrical Engineering">Electrical Engineering</option>
+                            <option value="Software Engineering">Software Engineering</option>
+                            <option value="consulting">consulting</option>
                         </select>
                     </div>
                     <div className="space-y-2">
@@ -167,19 +176,60 @@ const AddCourse = () => {
                             className="block w-full p-2 border border-gray-300 rounded-md"
                         />
                     </div>
-
                     <div className="space-y-2">
-                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea
-                        id="description"
-                        name="description"
-                        onChange={handleChange}
-                        value={eventData.description}
-                        className="block w-full p-2 border border-gray-300 rounded-md"
-                        rows="4"
-                    ></textarea>
-                </div>
-                    
+                        <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            onChange={handleChange}
+                            value={eventData.description}
+                            className="block w-full p-2 border border-gray-300 rounded-md"
+                            rows="4"
+                        ></textarea>
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="tableOfContent" className="block text-sm font-medium text-gray-700">Table of Content</label>
+                        <textarea
+                            id="tableOfContent"
+                            name="tableOfContent"
+                            onChange={handleChange}
+                            value={eventData.tableOfContent}
+                            className="block w-full p-2 border border-gray-300 rounded-md"
+                            rows="4"
+                        ></textarea>
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="objectives" className="block text-sm font-medium text-gray-700">Objectives</label>
+                        <textarea
+                            id="objectives"
+                            name="objectives"
+                            onChange={handleChange}
+                            value={eventData.objectives}
+                            className="block w-full p-2 border border-gray-300 rounded-md"
+                            rows="4"
+                        ></textarea>
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="outcome" className="block text-sm font-medium text-gray-700">Outcome</label>
+                        <textarea
+                            id="outcome"
+                            name="outcome"
+                            onChange={handleChange}
+                            value={eventData.outcome}
+                            className="block w-full p-2 border border-gray-300 rounded-md"
+                            rows="4"
+                        ></textarea>
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="courseImage" className="block text-sm font-medium text-gray-700">Course Image</label>
+                        <input
+                            type="file"
+                            id="courseImage"
+                            name="courseImage"
+                            onChange={handleImageChange}
+                            className="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                        />
+                    </div>
                     <button type="submit" className="w-full text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         Submit
                     </button>

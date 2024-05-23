@@ -63,18 +63,21 @@ const ProfilePageWithEdit = () => {
   return (
     <>
     <Navbar />
+    <Sidebar/>
     <div className="container mx-auto py-5">
+    <div className="max-w-md mx-auto relative">
       <div className="max-w-md mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6">
           {!editMode ? (
             <>
               {profileData && <ProfilePage profileData={profileData} />} 
-              <button 
-                onClick={toggleEditMode} 
-                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mt-3 transition-colors duration-300 w-full"
-              >
-                Edit Profile
-              </button>
+               <a 
+                  onClick={toggleEditMode} 
+                  className="text-blue-500 underline cursor-pointer absolute top-3 right-3"
+                >
+                  Edit Profile
+                </a>
+              
               <div className="flex justify-between mt-3">
                 <Logout />
                 <DeleteAccountButton />
@@ -93,6 +96,7 @@ const ProfilePageWithEdit = () => {
           )}
         </div>
       </div>
+    </div>
     </div>
     <Footer/>
     </>

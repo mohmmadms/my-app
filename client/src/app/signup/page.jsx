@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-
 const Signup = () => {
   const router = useRouter();
   const [name, setName] = useState('');
@@ -17,14 +16,10 @@ const Signup = () => {
   const [nationality, setNationality] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [profileImage, setProfileImage] = useState('');
   const [error, setError] = useState('');
 
-  const validatePhoneNumber = (phone) => {
-    
-    const phoneRegex = /^[0-9]{10}$/; 
-    return phoneRegex.test(phone);
-  };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -33,35 +28,36 @@ const Signup = () => {
       return;
     }
 
-    if (!validatePhoneNumber(phoneNumber)) {
-      setError('Invalid phone number format');
-      return;
-    }
-
     try {
-      const response = await axios.post('https://my-app-umber-sigma.vercel.app/api/users/signup', {
-        name,
-        email,
-        password,
-        location,
-        nationality,
-        dateOfBirth,
-        phoneNumber,
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('location', location);
+      formData.append('nationality', nationality);
+      formData.append('dateOfBirth', dateOfBirth);
+      formData.append('phoneNumber', phoneNumber);
+      formData.append('profileImage', profileImage); // Append profile image
+
+      const response = await axios.post('http://localhost:3001/api/users/signup', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data' // Set the content type for FormData
+        }
       });
-     
+
       const token = response.data.token;
       const userId = response.data._id;
-     
+
       localStorage.setItem('token', token);
       localStorage.setItem('userId', userId);
       localStorage.setItem('isAdmin', response.data.isAdmin);
-      
+
       router.push('/');
     } catch (error) {
-      if (error.response.status === 400 && error.response.data.message === 'User already exists') {
+      if (error.response && error.response.status === 400 && error.response.data.message === 'User already exists') {
         setError('User already exists');
       } else {
-        setError('User already exists');
+        setError('An error occurred');
       }
     }
   };
@@ -108,7 +104,7 @@ const Signup = () => {
           </div>
           <div className="mb-5">
             <label htmlFor="profileImage" className="block text-gray-700">Profile Image:</label>
-            <input type="file" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="profileImage" accept="image/*" />
+            <input type="file" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="profileImage" accept="image/*" onChange={(e) => setProfileImage(e.target.files[0])} />
           </div>
           <div className="mb-5">
             <button type="submit" className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-[#63D4D5] hover:bg-[#408D8E] hover:shadow-lg focus:outline-none">Sign Up</button>

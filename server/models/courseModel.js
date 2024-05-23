@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
+    // Define your schema fields here
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -11,7 +12,7 @@ const courseSchema = new mongoose.Schema({
     },
     time: {
         type: String,
-        required: true,
+        
     },
     location: {
         type: String,
@@ -25,12 +26,23 @@ const courseSchema = new mongoose.Schema({
     description: {
         type: String,
     },
+    tableOfContent: {
+        type: String,
+    },
+    objectives: {
+        type: String,
+    },
+    outcome: {
+        type: String,
+    },
     category: {
         type: String,
         enum: [ 'programming', 'Electrical Engineering','Software Engineering' ,'consulting'],
         required: true,
     },
-    eventImage: String,
+    courseImage: {
+        type: String,
+    },
     seats: {
         type: Number,
         required: true,
@@ -54,12 +66,6 @@ const courseSchema = new mongoose.Schema({
     }],
 }, { timestamps: true });
 
-// Add indexes
-courseSchema.index({ title: 1 });
-courseSchema.index({ category: 1 });
-courseSchema.index({ createdAt: -1 });
-
 const Course = mongoose.model('Course', courseSchema);
 
 module.exports = Course;
-

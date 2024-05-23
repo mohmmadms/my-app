@@ -22,6 +22,12 @@ const signup = async (req, res, next) => {
       return res.status(400).json({ error: 'User already exists' });
     }
 
+    let profileImage;
+    if (req.file) {
+      // If a file is included, save the file path to the profileImage variable
+      profileImage = req.file.path;
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -42,6 +48,7 @@ const signup = async (req, res, next) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      profileImage: user.profileImage,
       token: generateToken(user._id),
     });
   } catch (error) {
@@ -65,6 +72,7 @@ const login = async (req, res, next) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      profileImage: user.profileImage,
       token: generateToken(user._id),
     });
   } catch (error) {
@@ -76,7 +84,7 @@ const login = async (req, res, next) => {
 const profile = async (req, res, next) => {
   try {
     const user = {
-      profileImg: req.user.profileImage,
+      profileImage: req.user.profileImage,
       Email: req.user.email,
       Name: req.user.name,
       Location: req.user.location,
@@ -122,6 +130,10 @@ const editProfile = async (req, res, next) => {
     if (nationality) updates.nationality = nationality;
     if (dateOfBirth) updates.dateOfBirth = dateOfBirth;
     if (phoneNumber) updates.phoneNumber = phoneNumber;
+    if (req.file) {
+      // If a file is included, save the file path to the profileImage field
+      updates.profileImage = req.file.path;
+    }
 
     const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });
 
@@ -130,7 +142,7 @@ const editProfile = async (req, res, next) => {
     }
 
     const userProfile = {
-      profileImg: updatedUser.profileImage,
+      profileImage: updatedUser.profileImage,
       Email: updatedUser.email,
       Name: updatedUser.name,
       Location: updatedUser.location,

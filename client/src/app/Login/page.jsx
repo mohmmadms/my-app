@@ -22,6 +22,7 @@ const Login = () => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data._id);
         localStorage.setItem('isAdmin', response.data.isAdmin);
+        localStorage.setItem('profilePic', response.data.profileImage);
         router.push('/');
       } else {
         setError('Invalid email or password. Please try again.');
@@ -35,6 +36,7 @@ const Login = () => {
       setError('Invalid credentials. Please try again.');
     }
   };
+  
 
   return (
     <>

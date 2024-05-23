@@ -7,10 +7,10 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/SideBar';
+import Footer from '../components/Footer';
 
 const Dashboard = () => {
-    const randomNumber = Math.floor(Math.random() * 3);
-    const imageUrl = `https://picsum.photos/${randomNumber === 0 ? 1000 : randomNumber === 1 ? 501 : 500}/500`;
+
     const [courses, setCourses] = useState(null);
 
     useEffect(() => {
@@ -24,9 +24,12 @@ const Dashboard = () => {
         };
         fetchCourses();
     }, []);
+    console.log(courses);
 
     return (
         <>
+        <Navbar/>
+        <Sidebar/>
             <title>Dashboard</title>
             <h1 className="text-3xl text-purple-500 font-bold text-center my-6">Dashboard</h1>
             <div className="dashboard-style">
@@ -63,7 +66,7 @@ const Dashboard = () => {
                     <div key={course._id} className="container mx-auto mb-4">
                         <div className="bg-white p-6 rounded-lg shadow">
                             <div className="lg:flex">
-                                <img src={imageUrl} alt="Course" className="w-full lg:w-1/4 rounded-lg mb-4 lg:mb-0 lg:mr-4" />
+                                <img src={`http://localhost:3001/${course.courseImage}`} alt="Course" className="w-full lg:w-1/4 rounded-lg mb-4 lg:mb-0 lg:mr-4" style={{ maxWidth: '300px', maxHeight: '300px' }} />
                                 <div className="lg:flex-1">
                                     <h5 className="text-2xl font-bold">{course.title}</h5>
                                     <span className="text-gray-500">
@@ -83,6 +86,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                 ))}
+                <Footer/>
         </>
     );
 };
