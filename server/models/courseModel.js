@@ -12,7 +12,7 @@ const courseSchema = new mongoose.Schema({
     },
     time: {
         type: String,
-        required: true,
+        
     },
     location: {
         type: String,
@@ -26,12 +26,23 @@ const courseSchema = new mongoose.Schema({
     description: {
         type: String,
     },
+    tableOfContent: {
+        type: String,
+    },
+    objectives: {
+        type: String,
+    },
+    outcome: {
+        type: String,
+    },
     category: {
         type: String,
         enum: [ 'programming', 'Electrical Engineering','Software Engineering' ,'consulting'],
         required: true,
     },
-    eventImage: String,
+    courseImage: {
+        type: String,
+    },
     seats: {
         type: Number,
         required: true,

@@ -16,12 +16,13 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3001/api/users/login', { email, password });
+      const response = await axios.post('https://my-app-hp3z.onrender.com/api/users/login', { email, password });
     
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data._id);
         localStorage.setItem('isAdmin', response.data.isAdmin);
+        localStorage.setItem('profilePic', response.data.profileImage);
         router.push('/');
       } else {
         setError('Invalid email or password. Please try again.');
@@ -35,6 +36,7 @@ const Login = () => {
       setError('Invalid credentials. Please try again.');
     }
   };
+  
 
   return (
     <>

@@ -3,15 +3,17 @@ import axios from 'axios';
 
 const DeleteCourse = ({ courseId }) => {
     const [error, setError] = useState(null);
+    const [showModal, setShowModal] = useState();
 
     const handleDelete = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`http://localhost:3001/api/courses/${courseId}`, {
+            const response = await axios.delete(`https://my-app-hp3z.onrender.com/api/courses/${courseId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            setShowModal(false);
 
             console.log('Response:', response.data);
 
@@ -24,13 +26,22 @@ const DeleteCourse = ({ courseId }) => {
 
     return (
         <div>
+        <button onClick={() => setShowModal(true)} className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition-colors duration-300">Delete Course</button>
   
-            <button className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={handleDelete}>
-                Delete Course
-            </button>
-            {error && <div className="error">{error}</div>}
-        </div>
+        {showModal && (
+          <div id="popup-modal" tabIndex="-1" className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white rounded-lg p-8 max-w-md">
+              <h2 className="text-xl font-bold mb-4">Confirm Course Deletion</h2>
+              <p className="text-gray-700 mb-4">Are you sure!.</p>
+              <div className="flex justify-end">
+                <button onClick={() => setShowModal(false)} className="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg">Cancel</button>
+                <button onClick={handleDelete} className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg">Delete</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     );
-};
+  };
 
 export default DeleteCourse;

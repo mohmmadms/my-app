@@ -8,7 +8,7 @@ const DeleteAccountButton = ({ onSuccess }) => {
 
   const handleDeleteAccount = async () => {
     try {
-      await axios.delete(`http://localhost:3001/api/users/delete-account/`, {
+      await axios.delete(`https://my-app-hp3z.onrender.com/api/users/delete-account/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

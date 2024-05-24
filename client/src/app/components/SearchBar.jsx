@@ -12,7 +12,7 @@ const SearchBar = () => {
     if (searchQuery.trim() !== '') {
       try {
         // Send a GET request to your backend API with the search query
-        const response = await axios.get(`http://localhost:3001/api/courses?title=${searchQuery}`);
+        const response = await axios.get(`https://my-app-hp3z.onrender.com/api/courses?title=${searchQuery}`);
         // Update search results with the data returned from the backend
         setSearchResults(response.data);
         // Reset the search query
