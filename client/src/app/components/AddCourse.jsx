@@ -46,7 +46,7 @@ const AddCourse = () => {
                 formData.append('courseImage', courseImage);
             }
 
-            const response = await axios.post('http://localhost:3001/api/courses', formData, {
+            const response = await axios.post('https://my-app-hp3z.onrender.com/api/courses', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`,

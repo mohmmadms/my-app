@@ -48,7 +48,7 @@ const EditCourse = ({ course }) => {
         }
 
         try {
-            const response = await axios.put(`http://localhost:3001/api/courses/${course._id}`, formData, {
+            const response = await axios.put(`https://my-app-hp3z.onrender.com/api/courses/${course._id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ const EditCourse = ({ course }) => {
         const fetchEvent = async () => {
             try {
                 console.log(`Fetching event with ID: ${course._id}`);
-                const response = await axios.get(`http://localhost:3001/api/courses/${course._id}`);
+                const response = await axios.get(`https://my-app-hp3z.onrender.com/api/courses/${course._id}`);
                 const data = response.data;
 
                 // Format dates to yyyy-MM-dd

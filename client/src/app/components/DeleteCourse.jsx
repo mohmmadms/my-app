@@ -8,7 +8,7 @@ const DeleteCourse = ({ courseId }) => {
     const handleDelete = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`http://localhost:3001/api/courses/${courseId}`, {
+            const response = await axios.delete(`https://my-app-hp3z.onrender.com/api/courses/${courseId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

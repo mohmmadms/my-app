@@ -16,7 +16,7 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/courses/');
+                const response = await axios.get('https://my-app-hp3z.onrender.com/api/courses/');
                 setCourses(response.data);
             } catch (error) {
                 console.error('Error:', error);
@@ -66,7 +66,7 @@ const Dashboard = () => {
                     <div key={course._id} className="container mx-auto mb-4">
                         <div className="bg-white p-6 rounded-lg shadow">
                             <div className="lg:flex">
-                                <img src={`http://localhost:3001/${course.courseImage}`} alt="Course" className="w-full lg:w-1/4 rounded-lg mb-4 lg:mb-0 lg:mr-4" style={{ maxWidth: '300px', maxHeight: '300px' }} />
+                                <img src={`https://my-app-hp3z.onrender.com/${course.courseImage}`} alt="Course" className="w-full lg:w-1/4 rounded-lg mb-4 lg:mb-0 lg:mr-4" style={{ maxWidth: '300px', maxHeight: '300px' }} />
                                 <div className="lg:flex-1">
                                     <h5 className="text-2xl font-bold">{course.title}</h5>
                                     <span className="text-gray-500">

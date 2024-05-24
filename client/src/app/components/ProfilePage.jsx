@@ -10,7 +10,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/users/my-profile', {
+        const response = await axios.get('https://my-app-hp3z.onrender.com/api/users/my-profile', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -40,7 +40,7 @@ const ProfilePage = () => {
           <div className="sm:flex xl:block sm:space-x-4 xl:space-x-0">
           <img
               className="mb-2 w-20 h-20 rounded-2xl shadow-lg shadow-gray-300"
-              src={profileData.profileImage ? `http://localhost:3001/${profileData.profileImage}` : "/profile.png"}
+              src={profileData.profileImage ? `https://my-app-hp3z.onrender.com/${profileData.profileImage}` : "/profile.png"}
               alt="profile.png"
             />
             <div>

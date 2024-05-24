@@ -10,7 +10,7 @@ const CoursePage = ({ params }) => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/courses/${params.coursesId}`);
+        const response = await axios.get(`https://my-app-hp3z.onrender.com/api/courses/${params.coursesId}`);
         setCourse(response.data);
       } catch (error) {
         console.error('Error fetching course:', error);

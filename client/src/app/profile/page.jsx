@@ -22,7 +22,7 @@ const ProfilePageWithEdit = () => {
 
   const fetchProfileData = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/users/my-profile', {
+      const response = await axios.get('https://my-app-hp3z.onrender.com/api/users/my-profile', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`, 
         },
@@ -39,7 +39,7 @@ const ProfilePageWithEdit = () => {
 
   const handleProfileUpdate = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/users/my-profile', {
+      const response = await axios.get('https://my-app-hp3z.onrender.com/api/users/my-profile', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`, 
         },

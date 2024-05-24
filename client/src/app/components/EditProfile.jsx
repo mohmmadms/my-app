@@ -38,7 +38,7 @@ const EditProfileForm = ({ profileData, onSuccess }) => {
       }
 
       await axios.put(
-        `http://localhost:3001/api/users/edit-profile/${profileData._id}`,
+        `https://my-app-hp3z.onrender.com/api/users/edit-profile/${profileData._id}`,
         formData,
         {
           headers: {

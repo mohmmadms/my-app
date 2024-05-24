@@ -22,7 +22,7 @@ const ChangePasswordPage = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:3001/api/users/edit-profile/${userId}`,
+        `https://my-app-hp3z.onrender.com/api/users/edit-profile/${userId}`,
         {
           password: password,
         },

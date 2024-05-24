@@ -8,6 +8,7 @@ const Logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         localStorage.removeItem('isAdmin');
+        localStorage.removeItem('profilePic')
         router.push('/');
     };
 

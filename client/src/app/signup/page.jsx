@@ -39,7 +39,7 @@ const Signup = () => {
       formData.append('phoneNumber', phoneNumber);
       formData.append('profileImage', profileImage); // Append profile image
 
-      const response = await axios.post('http://localhost:3001/api/users/signup', formData, {
+      const response = await axios.post('https://my-app-hp3z.onrender.com/api/users/signup', formData, {
         headers: {
           'Content-Type': 'multipart/form-data' // Set the content type for FormData
         }

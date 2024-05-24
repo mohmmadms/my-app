@@ -21,7 +21,7 @@ const EnrollButton = ({ courseId }) => {
     const token = localStorage.getItem('token');
     try {
       setLoading(true);
-      const response = await axios.post(`http://localhost:3001/api/courses/${courseId}/enroll`, { userId }, {
+      const response = await axios.post(`https://my-app-hp3z.onrender.com/api/courses/${courseId}/enroll`, { userId }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
