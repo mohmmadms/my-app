@@ -29,7 +29,7 @@ const ProfilePage = () => {
   const formatDate = (dateString) => {
     return dateString ? new Date(dateString).toLocaleDateString('en-US') : 'Not specified';
   };
-  
+  console.log(profileData)
 
   return (
     <>
@@ -40,7 +40,7 @@ const ProfilePage = () => {
           <div className="sm:flex xl:block sm:space-x-4 xl:space-x-0">
           <img
               className="mb-2 w-20 h-20 rounded-2xl shadow-lg shadow-gray-300"
-              src={profileData.profileImage ? `https://my-app-hp3z.onrender.com/uploads/profileImages${profileData.profileImage}` : "/profile.png"}
+              src={profileData.profileImage ? `https://my-app-hp3z.onrender.com/${profileData.profileImage}` : "/profile.png"}
               alt="profile.png"
             />
             <div>
