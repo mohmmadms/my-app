@@ -53,7 +53,7 @@ const Sidebar = ({ children }) => {
         {isAuthenticated && (
         
         <img
-        src= {profileImage ? `https://my-app-hp3z.onrender.com/${profileImage}` : "/profile.png"}
+        src= {profileImage ? `https://my-app-hp3z.onrender.com/uploads/profileImages${profileImage}` : "/profile.png"}
         alt="Profile Picture"
         className="absolute top-0 left-1 mb-2 w-14 h-14 rounded-full shadow-lg shadow-gray-300"
         />

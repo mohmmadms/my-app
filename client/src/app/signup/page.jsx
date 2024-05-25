@@ -87,7 +87,7 @@ const Signup = () => {
             <input type="password" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
           </div>
           <div className="mb-5">
-            <label htmlFor="phoneNumber" className="block text-gray-700">Phone Number:</label>
+            <label  htmlFor="phoneNumber" className="block text-gray-700">Phone Number:</label>
             <input type="tel" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
           </div>
           <div className="mb-5">

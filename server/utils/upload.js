@@ -1,11 +1,11 @@
-// upload.js
-
 const multer = require('multer');
 const path = require('path');
 
 // Set storage engine for course images
 const courseStorage = multer.diskStorage({
-  destination: '/opt/render/project/files/courseImages', // Render's persistent storage directory for course images
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/courseImages'); // Relative path
+  },
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
   },
@@ -13,7 +13,9 @@ const courseStorage = multer.diskStorage({
 
 // Set storage engine for profile images
 const profileStorage = multer.diskStorage({
-  destination: '/opt/render/project/files/profileImages', // Render's persistent storage directory for profile images
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/profileImages'); // Relative path
+  },
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
   },
@@ -39,7 +41,7 @@ const uploadCourseImage = multer({
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
   },
-}).single('courseImage'); // 'courseImage' is the field name
+}).single('courseImage');
 
 // Init upload for profile images
 const uploadProfileImage = multer({
@@ -48,7 +50,7 @@ const uploadProfileImage = multer({
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
   },
-}).single('profileImage'); // 'profileImage' is the field name
+}).single('profileImage');
 
 module.exports = {
   uploadCourseImage,
