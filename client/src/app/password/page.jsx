@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/SideBar';
+import Footer from '../components/Footer';
 const ChangePasswordPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -48,6 +50,9 @@ const ChangePasswordPage = () => {
   }, [router]);
 
   return (
+    <>
+    <Navbar/>
+    <Sidebar/>
     <div className="min-h-screen bg-white flex justify-center items-center">
       <div className="container">
         <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
@@ -83,7 +88,8 @@ const ChangePasswordPage = () => {
           </div>
         </div>
       </div>
-   
+      <Footer/>
+      </>
   );
 };
 
