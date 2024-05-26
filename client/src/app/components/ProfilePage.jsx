@@ -5,7 +5,6 @@ const ProfilePage = () => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -29,7 +28,6 @@ const ProfilePage = () => {
   const formatDate = (dateString) => {
     return dateString ? new Date(dateString).toLocaleDateString('en-US') : 'Not specified';
   };
-  console.log(profileData)
 
   return (
     <>
@@ -38,15 +36,14 @@ const ProfilePage = () => {
       {profileData && (
         <>
           <div className="sm:flex xl:block sm:space-x-4 xl:space-x-0">
-          <img
+            <img
               className="mb-2 w-20 h-20 rounded-2xl shadow-lg shadow-gray-300"
               src={profileData.profileImage ? `https://my-app-hp3z.onrender.com${profileData.profileImage.replace('/opt/render/project/files', '/uploads')}` : "/profile.png"}
-              alt="profile.png"
+              alt="profile"
             />
             <div>
               <h2 className="text-xl font-bold">{profileData.Name}</h2>
               <ul className="mt-2 space-y-1">
-                
                 <li className="flex items-center text-sm font-normal text-gray-500">
                   <svg
                     className="mr-2 w-4 h-4 text-gray-900"
