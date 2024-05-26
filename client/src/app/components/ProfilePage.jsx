@@ -38,7 +38,7 @@ const ProfilePage = () => {
           <div className="sm:flex xl:block sm:space-x-4 xl:space-x-0">
             <img
               className="mb-2 w-20 h-20 rounded-2xl shadow-lg shadow-gray-300"
-              src={profileData.profileImage ? `https://my-app-hp3z.onrender.com${profileData.profileImage.replace('/opt/render/project/files', '/uploads')}` : "/profile.png"}
+              src={profileData.profileImage ? `https://my-app-hp3z.onrender.com/uploads/profileImages/profileImage-1716765387923.png` : "/profile.png"}
               alt="profile"
             />
             <div>

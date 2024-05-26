@@ -9,7 +9,7 @@ const generateToken = (userId) => {
 
 // Sign Up
 const signup = async (req, res, next) => {
-  const { name, email, password, isAdmin, profileImage, location, nationality, dateOfBirth ,phoneNumber } = req.body;
+  const { name, email, password, isAdmin, location, nationality, dateOfBirth ,phoneNumber } = req.body;
 
   if (!name || !email || !password) {
     return res.status(400).json({ error: 'Please include all fields' });
