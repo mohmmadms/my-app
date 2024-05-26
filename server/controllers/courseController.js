@@ -56,7 +56,7 @@ const addNewCourse = async (req, res) => {
       endDate,
       seats,
       description,
-      courseImage: req.file.path, // Path to uploaded image
+      courseImage: `/uploads/courseImages/${req.file.filename}`, // Relative path
     };
 
     // Create new course
@@ -117,7 +117,7 @@ const updateCourse = async (req, res) => {
       };
 
       if (req.file) {
-          updatedData.courseImage = req.file.path;
+        updatedData.courseImage = `/uploads/courseImages/${req.file.filename}`; // Relative path
       }
 
       const updatedCourse = await Course.findByIdAndUpdate(id, updatedData, { new: true });

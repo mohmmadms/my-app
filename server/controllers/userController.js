@@ -24,8 +24,7 @@ const signup = async (req, res, next) => {
 
     let profileImage;
     if (req.file) {
-      // If a file is included, save the file path to the profileImage variable
-      profileImage = req.file.path;
+      profileImage = `/uploads/profileImages/${req.file.filename}`; // Relative path
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -131,8 +130,7 @@ const editProfile = async (req, res, next) => {
     if (dateOfBirth) updates.dateOfBirth = dateOfBirth;
     if (phoneNumber) updates.phoneNumber = phoneNumber;
     if (req.file) {
-      // If a file is included, save the file path to the profileImage field
-      updates.profileImage = req.file.path;
+      updates.profileImage = `/uploads/profileImages/${req.file.filename}`; // Relative path
     }
 
     const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });

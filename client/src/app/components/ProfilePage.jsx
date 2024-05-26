@@ -38,9 +38,7 @@ const ProfilePage = () => {
           <div className="sm:flex xl:block sm:space-x-4 xl:space-x-0">
             <img
               className="mb-2 w-20 h-20 rounded-2xl shadow-lg shadow-gray-300"
-              src={profileData.profileImage ? `https://my-app-hp3z.onrender.com/uploads/profileImages/profileImage-1716765387923.png` : "/profile.png"}
-              alt="profile"
-            />
+              src={profileData.profileImage ? `https://my-app-hp3z.onrender.com${profileData.profileImage}` : "/profile.png"} alt="Profile" />
             <div>
               <h2 className="text-xl font-bold">{profileData.Name}</h2>
               <ul className="mt-2 space-y-1">
