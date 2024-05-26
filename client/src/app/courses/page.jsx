@@ -41,7 +41,7 @@ function HomePage (){
     if (error) {
       return <div>Error: {error}</div>;
     }
-  
+  console.log(courses)
     return (
     <>
       <Navbar/>
@@ -52,7 +52,8 @@ function HomePage (){
           {courses.map(course => (
             <div key={course._id} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
-                <img className="object-cover rounded-t-lg h-48 w-full" src={`https://my-app-hp3z.onrender.com/${course.courseImage}`} alt=""  />
+                <img className="object-cover rounded-t-lg h-48 w-full" src={`https://my-app-hp3z.onrender.com/${course.courseImage.replace('/opt/render/project/files', '/uploads')}`} alt=""  />
+                
 
               <div className="p-5">
                   <h5 className="mb-2 text-lg md:text-xl lg:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{course.title}</h5>

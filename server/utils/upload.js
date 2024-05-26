@@ -4,7 +4,7 @@ const path = require('path');
 // Set storage engine for course images
 const courseStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/courseImages'); // Relative path
+    cb(null, path.join(__dirname, 'uploads', 'courseImages')); // Use relative path
   },
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
@@ -14,7 +14,7 @@ const courseStorage = multer.diskStorage({
 // Set storage engine for profile images
 const profileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/profileImages'); // Relative path
+    cb(null, path.join(__dirname, 'uploads', 'profileImages')); // Use relative path
   },
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);

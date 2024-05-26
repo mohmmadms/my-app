@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 const EditProfileForm = ({ profileData, onSuccess }) => {
   const router = useRouter();
-  const [name, setName] = useState(profileData.name);
+  const [name, setName] = useState(profileData.name || '');
   const [location, setLocation] = useState(profileData.location || '');
   const [nationality, setNationality] = useState(profileData.nationality || '');
   const [dateOfBirth, setDateOfBirth] = useState(profileData.dateOfBirth || '');
