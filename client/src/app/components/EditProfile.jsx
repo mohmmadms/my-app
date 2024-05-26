@@ -55,7 +55,7 @@ const EditProfileForm = ({ profileData, onSuccess }) => {
       setIsLoading(false);
     }
   };
-
+console.log(profileData)
   return (
     <>
       <h2 className="text-center text-2xl font-semibold mb-4">Edit Profile</h2>

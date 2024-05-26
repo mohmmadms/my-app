@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));//true
 
 //build-in middleware 
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('uploads'));
 
 app.get('/test', (req, res) => {
   res.send('Hello World!')
