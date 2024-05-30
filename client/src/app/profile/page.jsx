@@ -61,13 +61,13 @@ const ProfilePageWithEdit = () => {
   }, [router]);
 
   return (
-    <>
+    <div className="bg-whit dark:bg-gray-900">
     <Navbar />
     <Sidebar/>
     <div className="container mx-auto py-5">
     <div className="max-w-md mx-auto relative">
       <div className="max-w-md mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="bg-white dark:bg-black rounded-lg shadow-lg p-6">
           {!editMode ? (
             <>
               {profileData && <ProfilePage profileData={profileData} />} 
@@ -99,7 +99,7 @@ const ProfilePageWithEdit = () => {
     </div>
     </div>
     <Footer/>
-    </>
+    </div>
   );
 };
 

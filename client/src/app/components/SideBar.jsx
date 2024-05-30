@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Logout from './Logout';
+import ThemeToggle from './ThemeToggle';
 
 const Sidebar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,12 +10,12 @@ const Sidebar = ({ children }) => {
   const [profileImage, setProfileImage] = useState();
 
   useEffect(() => {
-    // Check local storage for user authentication status
+   
     const token = localStorage.getItem('token');
     const isAdmin = localStorage.getItem('isAdmin');
     const profileImg = localStorage.getItem('profilePic')
-    setIsAuthenticated(!!token); // Convert token to boolean
-    setIsAdmin(!!isAdmin); // Convert isAdmin to boolean
+    setIsAuthenticated(!!token); 
+    setIsAdmin(!!isAdmin); 
     setProfileImage(profileImg)
   }, []);
 
@@ -23,16 +24,16 @@ const Sidebar = ({ children }) => {
   };
 
   return (
-    <>
+    <div className='bg-white dark:bg-gray-900'>
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg overflow-y-auto transition-transform duration-300 ease-in-out transform ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 shadow-lg overflow-y-auto transition-transform duration-300 ease-in-out transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex justify-end p-4">
+        <div className="flex dark:bg-gray-900 justify-end p-4">
           <button
-            className="text-gray-600 focus:outline-none hover:text-gray-800"
+            className="text-gray-600  focus:outline-none hover:text-gray-800"
             onClick={toggleSidebar}
           >
             <svg
@@ -62,7 +63,9 @@ const Sidebar = ({ children }) => {
         {/* Sidebar Content */}
         <ul className="mt-6">
         
-        
+        <li className='mb-4'>
+        <ThemeToggle/>
+        </li>
 
       
           {/* Profile Link */}
@@ -166,7 +169,7 @@ const Sidebar = ({ children }) => {
       {/* Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Navbar */}
-        <nav className="bg-white p-4 shadow">
+        <nav className="bg-white dark:bg-gray-900 p-4 shadow">
           <button
             className="text-gray-500 hover:text-gray-600 focus:outline-none"
             onClick={toggleSidebar}
@@ -188,11 +191,11 @@ const Sidebar = ({ children }) => {
         </nav>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto p-4">
+        <main className="flex-1  overflow-y-auto p-4">
           {children}
         </main>
       </div>
-    </>
+    </div>
   );
 };
 

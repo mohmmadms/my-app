@@ -43,12 +43,12 @@ function HomePage (){
     }
   console.log(courses)
     return (
-    <>
+      <div className='bg-white dark:bg-gray-900'>
       <Navbar/>
       <SideBar>
         <HeroSection/>
-      <div className="flex flex-col">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 ml-4">
+      <div className="flex flex-col dark:bg-gray-900">
+        <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 ml-4">
           {courses.map(course => (
             <div key={course._id} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
@@ -71,7 +71,7 @@ function HomePage (){
       </SideBar>
       <Footer />
       
-    </>
+    </div>
   );
 }
 

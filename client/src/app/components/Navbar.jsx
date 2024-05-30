@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Import axios for making HTTP requests
-import Link from 'next/link';
+import Link from 'next/link'
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -138,9 +139,9 @@ const Navbar = () => {
                 <ul>
                   {searchResults.map((course) => (
                     <li key={course._id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <a href={`/courses/${course._id}`} className="block px-4 py-2 text-gray-900 dark:text-white">
+                      <Link href={`/courses/${course._id}`} className="block px-4 py-2 text-gray-900 dark:text-white">
                         {course.title}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

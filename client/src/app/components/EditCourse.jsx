@@ -91,186 +91,186 @@ const EditCourse = ({ course }) => {
    
 
     return (
-        <>
-            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleOpenModal}>
+            <>
+              <button className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleOpenModal}>
                 Edit
-            </button>
-            <MyModal show={showModal} onClose={handleClose}>
+              </button>
+              <MyModal show={showModal} onClose={handleClose}>
                 <form className="create" onSubmit={handleSubmit}>
-                    <div className="container mx-auto p-4">
-                        {/* Title */}
-                        <div className="mb-4">
-                            <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
-                            <input
-                                type="text"
-                                id="title"
-                                name="title"
-                                onChange={handleChange}
-                                value={eventData.title}
-                                className="form-input mt-1 block w-full"
-                                placeholder="Title"
-                            />
-                        </div>
-                        {/* Time */}
-                        <div className="mb-4">
-                            <label htmlFor="time" className="block text-sm font-medium text-gray-700">Time</label>
-                            <input
-                                type="text"
-                                id="time"
-                                name="time"
-                                onChange={handleChange}
-                                value={eventData.time}
-                                className="form-input mt-1 block w-full"
-                                placeholder="Time"
-                            />
-                        </div>
-                        {/* Location */}
-                        <div className="mb-4">
-                            <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
-                            <input
-                                type="text"
-                                id="location"
-                                name="location"
-                                onChange={handleChange}
-                                value={eventData.location}
-                                className="form-input mt-1 block w-full"
-                                placeholder="Location"
-                            />
-                        </div>
-                        {/* Price */}
-                        <div className="mb-4">
-                            <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price</label>
-                            <input
-                                type="number"
-                                id="price"
-                                name="price"
-                                onChange={handleChange}
-                                value={eventData.price}
-                                className="form-input mt-1 block w-full"
-                                placeholder="Price"
-                            />
-                        </div>
-                        {/* Category */}
-                        <div className="mb-4">
-                            <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
-                            <select
-                                id="category"
-                                name="category"
-                                onChange={handleChange}
-                                value={eventData.category}
-                                className="form-select mt-1 block w-full"
-                            >
-                                <option value="">Select Category</option>
-                                <option value="programming">Programming</option>
-                                <option value="Electrical Engineering">Electrical Engineering</option>
-                                <option value="Software Engineering">Software Engineering</option>
-                                <option value="consulting">Consulting</option>
-                            </select>
-                        </div>
-                        {/* Start Date */}
-                        <div className="mb-4">
-                            <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">Start Date</label>
-                            <input
-                                type="date"
-                                id="startDate"
-                                name="startDate"
-                                onChange={handleChange}
-                                value={eventData.startDate}
-                                className="form-input mt-1 block w-full"
-                            />
-                        </div>
-                        {/* End Date */}
-                        <div className="mb-4">
-                            <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">End Date</label>
-                            <input
-                                type="date"
-                                id="endDate"
-                                name="endDate"
-                                onChange={handleChange}
-                                value={eventData.endDate}
-                                className="form-input mt-1 block w-full"
-                            />
-                        </div>
-                        {/* Seats */}
-                        <div className="mb-4">
-                            <label htmlFor="seats" className="block text-sm font-medium text-gray-700">Seats</label>
-                            <input
-                                type="number"
-                                id="seats"
-                                name="seats"
-                                onChange={handleChange}
-                                value={eventData.seats}
-                                className="form-input mt-1 block w-full"
-                                placeholder="Seats"
-                            />
-                        </div>
-                        {/* Description */}
-                        <div className="mb-4">
-                            <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                onChange={handleChange}
-                                value={eventData.description}
-                                className="form-input mt-1 block w-full"
-                                rows="4"
-                            ></textarea>
-
-                        </div>
-                        {/* Table of Content */}
-                        <div className="mb-4">
-                            <label htmlFor="tableOfContent" className="block text-sm font-medium text-gray-700">Table of Content</label>
-                            <textarea
-                                id="tableOfContent"
-                                name="tableOfContent"
-                                onChange={handleChange}
-                                value={eventData.tableOfContent}
-                                className="form-input mt-1 block w-full"
-                                rows="4"
-                            ></textarea>
-                        </div>
-                        {/* Objectives */}
-                        <div className="mb-4">
-                            <label htmlFor="objectives" className="block text-sm font-medium text-gray-700">Objectives</label>
-                            <textarea
-                                id="objectives"
-                                name="objectives"
-                                onChange={handleChange}
-                                value={eventData.objectives}
-                                className="form-input mt-1 block w-full"
-                                rows="4"
-                            ></textarea>
-                        </div>
-                        {/* Outcome */}
-                        <div className="mb-4">
-                            <label htmlFor="outcome" className="block text-sm font-medium text-gray-700">Outcome</label>
-                            <textarea
-                                id="outcome"
-                                name="outcome"
-                                onChange={handleChange}
-                                value={eventData.outcome}
-                                className="form-input mt-1 block w-full"
-                                rows="4"
-                            ></textarea>
-                        </div>
-                        {/* Course Image */}
-                        <div className="mb-4">
-                            <label htmlFor="courseImage" className="block text-sm font-medium text-gray-700">Course Image</label>
-                            <input
-                                type="file"
-                                id="courseImage"
-                                name="courseImage"
-                                onChange={handleImageChange}
-                                className="form-input mt-1 block w-full"
-                            />
-                        </div>
-                        {error && <div className="text-red-500 mb-4">{error}</div>}
-                        <button className="w-full text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Edit Course</button>
+                  <div className="container mx-auto p-4 dark:bg-gray-900 dark:text-gray-100">
+                    {/* Title */}
+                    <div className="mb-4">
+                      <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Title</label>
+                      <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        onChange={handleChange}
+                        value={eventData.title}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        placeholder="Title"
+                      />
                     </div>
+                    {/* Time */}
+                    <div className="mb-4">
+                      <label htmlFor="time" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Time</label>
+                      <input
+                        type="text"
+                        id="time"
+                        name="time"
+                        onChange={handleChange}
+                        value={eventData.time}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        placeholder="Time"
+                      />
+                    </div>
+                    {/* Location */}
+                    <div className="mb-4">
+                      <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
+                      <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        onChange={handleChange}
+                        value={eventData.location}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        placeholder="Location"
+                      />
+                    </div>
+                    {/* Price */}
+                    <div className="mb-4">
+                      <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
+                      <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        onChange={handleChange}
+                        value={eventData.price}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        placeholder="Price"
+                      />
+                    </div>
+                    {/* Category */}
+                    <div className="mb-4">
+                      <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
+                      <select
+                        id="category"
+                        name="category"
+                        onChange={handleChange}
+                        value={eventData.category}
+                        className="form-select mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                      >
+                        <option value="">Select Category</option>
+                        <option value="programming">Programming</option>
+                        <option value="Electrical Engineering">Electrical Engineering</option>
+                        <option value="Software Engineering">Software Engineering</option>
+                        <option value="consulting">Consulting</option>
+                      </select>
+                    </div>
+                    {/* Start Date */}
+                    <div className="mb-4">
+                      <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date</label>
+                      <input
+                        type="date"
+                        id="startDate"
+                        name="startDate"
+                        onChange={handleChange}
+                        value={eventData.startDate}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                      />
+                    </div>
+                    {/* End Date */}
+                    <div className="mb-4">
+                      <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300">End Date</label>
+                      <input
+                        type="date"
+                        id="endDate"
+                        name="endDate"
+                        onChange={handleChange}
+                        value={eventData.endDate}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                      />
+                    </div>
+                    {/* Seats */}
+                    <div className="mb-4">
+                      <label htmlFor="seats" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Seats</label>
+                      <input
+                        type="number"
+                        id="seats"
+                        name="seats"
+                        onChange={handleChange}
+                        value={eventData.seats}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        placeholder="Seats"
+                      />
+                    </div>
+                    {/* Description */}
+                    <div className="mb-4">
+                      <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
+                      <textarea
+                        id="description"
+                        name="description"
+                        onChange={handleChange}
+                        value={eventData.description}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        rows="4"
+                      ></textarea>
+                    </div>
+                    {/* Table of Content */}
+                    <div className="mb-4">
+                      <label htmlFor="tableOfContent" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Table of Content</label>
+                      <textarea
+                        id="tableOfContent"
+                        name="tableOfContent"
+                        onChange={handleChange}
+                        value={eventData.tableOfContent}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        rows="4"
+                      ></textarea>
+                    </div>
+                    {/* Objectives */}
+                    <div className="mb-4">
+                      <label htmlFor="objectives" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Objectives</label>
+                      <textarea
+                        id="objectives"
+                        name="objectives"
+                        onChange={handleChange}
+                        value={eventData.objectives}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        rows="4"
+                      ></textarea>
+                    </div>
+                    {/* Outcome */}
+                    <div className="mb-4">
+                      <label htmlFor="outcome" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Outcome</label>
+                      <textarea
+                        id="outcome"
+                        name="outcome"
+                        onChange={handleChange}
+                        value={eventData.outcome}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        rows="4"
+                      ></textarea>
+                    </div>
+                    {/* Course Image */}
+                    <div className="mb-4">
+                      <label htmlFor="courseImage" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Image</label>
+                      <input
+                        type="file"
+                        id="courseImage"
+                        name="courseImage"
+                        onChange={handleImageChange}
+                        className="form-input mt-1 block w-full dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                      />
+                    </div>
+                    {error && <div className="text-red-500 dark:text-red-400 mb-4">{error}</div>}
+                    <button className="w-full text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Edit Course</button>
+                  </div>
                 </form>
-            </MyModal>
-        </>
-    );
+              </MyModal>
+            </>
+          );
+          
 };
 
 export default EditCourse;
