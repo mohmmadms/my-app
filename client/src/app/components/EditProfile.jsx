@@ -56,44 +56,45 @@ const EditProfileForm = ({ profileData, onSuccess }) => {
     }
   };
 console.log(profileData)
-  return (
-    <>
-      <h2 className="text-center text-2xl font-semibold mb-4">Edit Profile</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="profileImage" className="block font-semibold">Profile Image:</label>
-          <input type="file" id="profileImage" accept="image/*" onChange={handleImageChange} />
-        </div>
-        <div>
-          <label htmlFor="name" className="block font-semibold">Name:</label>
-          <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="name" value={name} onChange={(e) => setName(e.target.value)} />
-        </div>
-        <div>
-          <label htmlFor="phoneNumber" className="block font-semibold">Phone Number:</label>
-          <input type="tel" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-        </div>
-        <div>
-          <label htmlFor="location" className="block font-semibold">Location:</label>
-          <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="location" value={location} onChange={(e) => setLocation(e.target.value)} />
-        </div>
-        <div>
-          <label htmlFor="nationality" className="block font-semibold">Nationality:</label>
-          <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="nationality" value={nationality} onChange={(e) => setNationality(e.target.value)} />
-        </div>
-        <div>
-          <label htmlFor="dateOfBirth" className="block font-semibold">Date of Birth:</label>
-          <input type="date" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="dateOfBirth" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
-        </div>
-        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md w-full" disabled={isLoading}>
-          {isLoading ? 'Saving...' : 'Save Changes'}
-        </button>
-      </form>
-      <div className="mt-3">
-        <Link href="/password" className="text-blue-500">Change Password</Link>
+return (
+  <>
+    <h2 className="text-center text-2xl font-semibold mb-4 dark:text-gray-100">Edit Profile</h2>
+    {error && <p className="text-red-500 dark:text-red-400">{error}</p>}
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label htmlFor="profileImage" className="block font-semibold dark:text-gray-100">Profile Image:</label>
+        <input type="file" id="profileImage" accept="image/*" onChange={handleImageChange} />
       </div>
-    </>
-  );
+      <div>
+        <label htmlFor="name" className="block font-semibold dark:text-gray-100">Name:</label>
+        <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="phoneNumber" className="block font-semibold dark:text-gray-100">Phone Number:</label>
+        <input type="tel" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="location" className="block font-semibold dark:text-gray-100">Location:</label>
+        <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="location" value={location} onChange={(e) => setLocation(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="nationality" className="block font-semibold dark:text-gray-100">Nationality:</label>
+        <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="nationality" value={nationality} onChange={(e) => setNationality(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="dateOfBirth" className="block font-semibold dark:text-gray-100">Date of Birth:</label>
+        <input type="date" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="dateOfBirth" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
+      </div>
+      <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md w-full hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" disabled={isLoading}>
+        {isLoading ? 'Saving...' : 'Save Changes'}
+      </button>
+    </form>
+    <div className="mt-3">
+      <Link href="/password" className="text-blue-500 dark:text-blue-400">Change Password</Link>
+    </div>
+  </>
+);
+
 };
 
 export default EditProfileForm;

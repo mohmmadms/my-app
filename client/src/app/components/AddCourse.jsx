@@ -84,152 +84,153 @@ const AddCourse = () => {
             <MyModal show={showModal} onClose={handleClose}>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
+                        <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Title</label>
                         <input
                             type="text"
                             id="title"
                             name="title"
                             onChange={handleChange}
                             value={eventData.title}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
+                            className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                         />
                     </div>
                     <div className="space-y-2">
-                        <label htmlFor="time" className="block text-sm font-medium text-gray-700">Time</label>
-                        <input
-                            type="text" 
-                            id="time"
-                            name="time"
-                            onChange={handleChange}
-                            value={eventData.time}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
-                        <input
-                            type="text"
-                            id="location"
-                            name="location"
-                            onChange={handleChange}
-                            value={eventData.location}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price</label>
-                        <input
-                            type="number"
-                            id="price"
-                            name="price"
-                            onChange={handleChange}
-                            value={eventData.price}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
-                        <select
-                            id="category"
-                            name="category"
-                            onChange={handleChange}
-                            value={eventData.category}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
-                        >
-                            <option value="">Select Category</option>
-                            <option value="programming">programming</option>
-                            <option value="Electrical Engineering">Electrical Engineering</option>
-                            <option value="Software Engineering">Software Engineering</option>
-                            <option value="consulting">consulting</option>
-                        </select>
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">Start Date</label>
-                        <input
-                            type="date"
-                            id="startDate"
-                            name="startDate"
-                            onChange={handleChange}
-                            value={eventData.startDate}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">End Date</label>
-                        <input
-                            type="date"
-                            id="endDate"
-                            name="endDate"
-                            onChange={handleChange}
-                            value={eventData.endDate}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="seats" className="block text-sm font-medium text-gray-700">Seats</label>
-                        <input
-                            type="number"
-                            id="seats"
-                            name="seats"
-                            onChange={handleChange}
-                            value={eventData.seats}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
-                        <textarea
-                            id="description"
-                            name="description"
-                            onChange={handleChange}
-                            value={eventData.description}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
-                            rows="4"
-                        ></textarea>
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="tableOfContent" className="block text-sm font-medium text-gray-700">Table of Content</label>
-                        <textarea
-                            id="tableOfContent"
-                            name="tableOfContent"
-                            onChange={handleChange}
-                            value={eventData.tableOfContent}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
-                            rows="4"
-                        ></textarea>
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="objectives" className="block text-sm font-medium text-gray-700">Objectives</label>
-                        <textarea
-                            id="objectives"
-                            name="objectives"
-                            onChange={handleChange}
-                            value={eventData.objectives}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
-                            rows="4"
-                        ></textarea>
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="outcome" className="block text-sm font-medium text-gray-700">Outcome</label>
-                        <textarea
-                            id="outcome"
-                            name="outcome"
-                            onChange={handleChange}
-                            value={eventData.outcome}
-                            className="block w-full p-2 border border-gray-300 rounded-md"
-                            rows="4"
-                        ></textarea>
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="courseImage" className="block text-sm font-medium text-gray-700">Course Image</label>
-                        <input
-                            type="file"
-                            id="courseImage"
-                            name="courseImage"
-                            onChange={handleImageChange}
-                            className="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                        />
-                    </div>
+                    <label htmlFor="time" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Time</label>
+                    <input
+                        type="text" 
+                        id="time"
+                        name="time"
+                        onChange={handleChange}
+                        value={eventData.time}
+                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                    />
+                </div>
+                {/* Ensure all form elements have corresponding dark mode styles */}
+                <div className="space-y-2">
+                    <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
+                    <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        onChange={handleChange}
+                        value={eventData.location}
+                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        onChange={handleChange}
+                        value={eventData.price}
+                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
+                    <select
+                        id="category"
+                        name="category"
+                        onChange={handleChange}
+                        value={eventData.category}
+                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                    >
+                        <option value="">Select Category</option>
+                        <option value="programming">programming</option>
+                        <option value="Electrical Engineering">Electrical Engineering</option>
+                        <option value="Software Engineering">Software Engineering</option>
+                        <option value="consulting">consulting</option>
+                    </select>
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date</label>
+                    <input
+                        type="date"
+                        id="startDate"
+                        name="startDate"
+                        onChange={handleChange}
+                        value={eventData.startDate}
+                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300">End Date</label>
+                    <input
+                        type="date"
+                        id="endDate"
+                        name="endDate"
+                        onChange={handleChange}
+                        value={eventData.endDate}
+                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="seats" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Seats</label>
+                    <input
+                        type="number"
+                        id="seats"
+                        name="seats"
+                        onChange={handleChange}
+                        value={eventData.seats}
+                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        onChange={handleChange}
+                        value={eventData.description}
+                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        rows="4"
+                    ></textarea>
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="tableOfContent" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Table of Content</label>
+                    <textarea
+                        id="tableOfContent"
+                        name="tableOfContent"
+                        onChange={handleChange}
+                        value={eventData.tableOfContent}
+                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        rows="4"
+                    ></textarea>
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="objectives" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Objectives</label>
+                    <textarea
+                        id="objectives"
+                        name="objectives"
+                        onChange={handleChange}
+                        value={eventData.objectives}
+                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        rows="4"
+                    ></textarea>
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="outcome" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Outcome</label>
+                    <textarea
+                        id="outcome"
+                        name="outcome"
+                        onChange={handleChange}
+                        value={eventData.outcome}
+                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                        rows="4"
+                    ></textarea>
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="courseImage" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Image</label>
+                    <input
+                        type="file"
+                        id="courseImage"
+                        name="courseImage"
+                        onChange={handleImageChange}
+                        className="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-blue-700"
+                    />
+                </div>
                     <button type="submit" className="w-full text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         Submit
                     </button>

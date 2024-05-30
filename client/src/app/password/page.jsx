@@ -50,10 +50,10 @@ const ChangePasswordPage = () => {
   }, [router]);
 
   return (
-    <>
+    <div className="bg-whit dark:bg-gray-900">
     <Navbar/>
     <Sidebar/>
-    <div className="min-h-screen bg-white flex justify-center items-center">
+    <div className="min-h-screen bg-white dark:bg-gray-900 flex justify-center items-center">
       <div className="container">
         <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
             <h2 className="text-center mb-4">Change Password</h2>
@@ -89,7 +89,7 @@ const ChangePasswordPage = () => {
         </div>
       </div>
       <Footer/>
-      </>
+      </div>
   );
 };
 

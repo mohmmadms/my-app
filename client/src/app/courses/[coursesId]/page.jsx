@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import EnrollButton from '@/app/components/EnrollButton';
+import EnrolledUsers from '@/app/components/EnrolledUsers';
 
 
 const CoursePage = ({ params }) => {
@@ -25,6 +26,7 @@ const CoursePage = ({ params }) => {
 
   return (
     <div className="course-page-container" style={{ background: '#f7fafc', minHeight: '100vh' }}>
+      <EnrolledUsers courseId={params.coursesId}/>
       <div>
         {course ? (
           <div>
