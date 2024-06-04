@@ -1,16 +1,9 @@
 const multer = require('multer');
 const path = require('path');
 
-// Determine the destination directory based on environment
-const courseImagesDir = process.env.COURSE_IMAGES_DIR || '/persistent/courseImages';
-const profileImagesDir = process.env.PROFILE_IMAGES_DIR || '/persistent/profileImages';
-
-console.log('COURSE_IMAGES_DIR:', courseImagesDir);
-console.log('PROFILE_IMAGES_DIR:', profileImagesDir);
-
 // Set storage engine for course images
 const courseStorage = multer.diskStorage({
-  destination: courseImagesDir,
+  destination: '/opt/render/project/files/courseImages', // Render's persistent storage directory for course images
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
   },
@@ -18,7 +11,7 @@ const courseStorage = multer.diskStorage({
 
 // Set storage engine for profile images
 const profileStorage = multer.diskStorage({
-  destination: profileImagesDir,
+  destination: '/opt/render/project/files/profileImages', // Render's persistent storage directory for profile images
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
   },
@@ -40,22 +33,22 @@ function checkFileType(file, cb) {
 // Init upload for course images
 const uploadCourseImage = multer({
   storage: courseStorage,
-  limits: { fileSize: 1000000 },
+  limits: { fileSize: 1000000 }, // Limit file size to 1MB
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
   },
-}).single('courseImage');
+}).single('courseImage'); // 'courseImage' is the field name
 
 // Init upload for profile images
 const uploadProfileImage = multer({
   storage: profileStorage,
-  limits: { fileSize: 1000000 },
+  limits: { fileSize: 1000000 }, // Limit file size to 1MB
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
   },
-}).single('profileImage');
+}).single('profileImage'); // 'profileImage' is the field name
 
 module.exports = {
   uploadCourseImage,
   uploadProfileImage,
-};
+}; 
