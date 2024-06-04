@@ -1,23 +1,19 @@
-const multer = require('multer');
+const admin = require('firebase-admin');
 const path = require('path');
+const multer = require('multer');
 
-// Set storage engine for course images
-const courseStorage = multer.diskStorage({
-  destination: '/opt/render/project/files/courseImages', // Render's persistent storage directory for course images
-  filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-  },
+// Initialize Firebase Admin SDK
+admin.initializeApp({
+  credential: admin.credential.cert(require(path.resolve(process.env.FIREBASE_KEY_FILE))), // Use path.resolve to correctly resolve the file path
+  storageBucket: process.env.FIREBASE_BUCKET_URL,
 });
 
-// Set storage engine for profile images
-const profileStorage = multer.diskStorage({
-  destination: '/opt/render/project/files/profileImages', // Render's persistent storage directory for profile images
-  filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-  },
-});
+const bucket = admin.storage().bucket();
 
-// Check file type
+// Memory storage
+const storage = multer.memoryStorage();
+
+// Check file type function
 function checkFileType(file, cb) {
   const filetypes = /jpeg|jpg|png|gif/;
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -30,25 +26,82 @@ function checkFileType(file, cb) {
   }
 }
 
+// Upload to Firebase Storage function
+async function uploadToFirebaseStorage(file, folder) {
+  const blob = bucket.file(`${folder}/${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+  const blobStream = blob.createWriteStream({
+    resumable: false,
+    contentType: file.mimetype,
+    predefinedAcl: 'publicRead',
+  });
+
+  return new Promise((resolve, reject) => {
+    blobStream.on('finish', () => {
+      const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+      resolve(publicUrl);
+    }).on('error', (err) => {
+      reject(err);
+    }).end(file.buffer);
+  });
+}
+
 // Init upload for course images
 const uploadCourseImage = multer({
-  storage: courseStorage,
-  limits: { fileSize: 1000000 }, // Limit file size to 1MB
+  storage: storage,
+  limits: { fileSize: 1000000 },
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
   },
-}).single('courseImage'); // 'courseImage' is the field name
+}).single('courseImage');
 
 // Init upload for profile images
 const uploadProfileImage = multer({
-  storage: profileStorage,
-  limits: { fileSize: 1000000 }, // Limit file size to 1MB
+  storage: storage,
+  limits: { fileSize: 1000000 },
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
   },
-}).single('profileImage'); // 'profileImage' is the field name
+}).single('profileImage');
+
+// Middleware to handle course image upload and save to Firebase
+const handleCourseImageUpload = (req, res, next) => {
+  uploadCourseImage(req, res, async (err) => {
+    if (err) {
+      return res.status(400).send({ error: err.message });
+    }
+    if (!req.file) {
+      return res.status(400).send({ error: 'No file uploaded' });
+    }
+    try {
+      const publicUrl = await uploadToFirebaseStorage(req.file, 'courseImages');
+      req.file.firebaseUrl = publicUrl; // Add URL to request object for further use
+      next();
+    } catch (error) {
+      return res.status(500).send({ error: error.message });
+    }
+  });
+};
+
+// Middleware to handle profile image upload and save to Firebase
+const handleProfileImageUpload = (req, res, next) => {
+  uploadProfileImage(req, res, async (err) => {
+    if (err) {
+      return res.status(400).send({ error: err.message });
+    }
+    if (!req.file) {
+      return res.status(400).send({ error: 'No file uploaded' });
+    }
+    try {
+      const publicUrl = await uploadToFirebaseStorage(req.file, 'profileImages');
+      req.file.firebaseUrl = publicUrl; // Add URL to request object for further use
+      next();
+    } catch (error) {
+      return res.status(500).send({ error: error.message });
+    }
+  });
+};
 
 module.exports = {
-  uploadCourseImage,
-  uploadProfileImage,
-}; 
+  handleCourseImageUpload,
+  handleProfileImageUpload,
+};
