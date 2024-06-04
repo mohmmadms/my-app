@@ -62,27 +62,27 @@ return (
     {error && <p className="text-red-500 dark:text-red-400">{error}</p>}
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label htmlFor="profileImage" className="block font-semibold dark:text-gray-100">Profile Image:</label>
+        <label htmlFor="profileImage" className="block font-semibold dark:text-white">Profile Image:</label>
         <input type="file" id="profileImage" accept="image/*" onChange={handleImageChange} />
       </div>
       <div>
-        <label htmlFor="name" className="block font-semibold dark:text-gray-100">Name:</label>
+        <label htmlFor="name" className="block font-semibold dark:text-white">Name:</label>
         <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="name" value={name} onChange={(e) => setName(e.target.value)} />
       </div>
       <div>
-        <label htmlFor="phoneNumber" className="block font-semibold dark:text-gray-100">Phone Number:</label>
+        <label htmlFor="phoneNumber" className="block font-semibold dark:text-white">Phone Number:</label>
         <input type="tel" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
       </div>
       <div>
-        <label htmlFor="location" className="block font-semibold dark:text-gray-100">Location:</label>
+        <label htmlFor="location" className="block font-semibold dark:text-white">Location:</label>
         <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="location" value={location} onChange={(e) => setLocation(e.target.value)} />
       </div>
       <div>
-        <label htmlFor="nationality" className="block font-semibold dark:text-gray-100">Nationality:</label>
+        <label htmlFor="nationality" className="block font-semibold dark:text-white">Nationality:</label>
         <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="nationality" value={nationality} onChange={(e) => setNationality(e.target.value)} />
       </div>
       <div>
-        <label htmlFor="dateOfBirth" className="block font-semibold dark:text-gray-100">Date of Birth:</label>
+        <label htmlFor="dateOfBirth" className="block font-semibold dark:text-white">Date of Birth:</label>
         <input type="date" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="dateOfBirth" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
       </div>
       <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md w-full hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" disabled={isLoading}>

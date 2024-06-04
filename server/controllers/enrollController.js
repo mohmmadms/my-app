@@ -42,7 +42,7 @@ exports.getEnrolledUsersForCourse = async (req, res) => {
     const { courseId } = req.params;
 
     try {
-        const course = await Course.findById(courseId).populate('enrolledUsers', 'name email');
+        const course = await Course.findById(courseId).populate('enrolledUsers', 'name email phoneNumber');
 
         if (!course) {
             return res.status(404).json({ message: 'Course not found' });
