@@ -41,7 +41,13 @@ const addNewCourse = async (req, res) => {
 
     // Extract data from request body
     const { title, time, location, price, category, startDate, endDate, seats, description , tableOfContent,objectives ,outcome } = req.body;
-
+    let courseImageUrl;
+    try {
+      const publicUrl = await uploadToFirebaseStorage(req.file, 'courseImages');
+      courseImageUrl = publicUrl; // Set course image URL from Firebase
+    } catch (error) {
+      return res.status(500).json({ error: 'Failed to upload course image to Firebase Storage' });
+    }
     // Construct course data object
     const courseData = {
       title,
@@ -56,7 +62,7 @@ const addNewCourse = async (req, res) => {
       endDate,
       seats,
       description,
-      courseImage: `/uploads/courseImages/${req.file.filename}`, // Relative path
+      courseImage: courseImageUrl, // Relative path
     };
 
     // Create new course
@@ -117,7 +123,12 @@ const updateCourse = async (req, res) => {
       };
 
       if (req.file) {
-        updatedData.courseImage = `/uploads/courseImages/${req.file.filename}`; // Relative path
+        try {
+          const publicUrl = await uploadToFirebaseStorage(req.file, 'courseImages');
+          updatedData.courseImage = publicUrl; // Set course image URL from Firebase
+        } catch (error) {
+          return res.status(500).json({ error: 'Failed to upload course image to Firebase Storage' });
+        }
       }
 
       const updatedCourse = await Course.findByIdAndUpdate(id, updatedData, { new: true });

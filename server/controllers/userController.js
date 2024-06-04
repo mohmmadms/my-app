@@ -22,10 +22,6 @@ const signup = async (req, res, next) => {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    let profileImage;
-    if (req.file) {
-      profileImage = `/uploads/profileImages/${req.file.filename}`; // Relative path
-    }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -35,7 +31,7 @@ const signup = async (req, res, next) => {
       email,
       password: hashedPassword,
       isAdmin,
-      profileImage,
+      profileImage: req.file ? req.file.firebaseUrl : null,
       location,
       nationality,
       dateOfBirth,
@@ -83,7 +79,7 @@ const login = async (req, res, next) => {
 const profile = async (req, res, next) => {
   try {
     const user = {
-      profileImage: req.user.profileImage,
+      profileImage: req.user.profileImage ? req.user.profileImage : null,
       Email: req.user.email,
       Name: req.user.name,
       Location: req.user.location,
@@ -129,8 +125,15 @@ const editProfile = async (req, res, next) => {
     if (nationality) updates.nationality = nationality;
     if (dateOfBirth) updates.dateOfBirth = dateOfBirth;
     if (phoneNumber) updates.phoneNumber = phoneNumber;
+    
     if (req.file) {
-      updates.profileImage = `/uploads/profileImages/${req.file.filename}`; // Relative path
+      try {
+        // Upload profile image to Firebase Storage
+        const publicUrl = await uploadToFirebaseStorage(req.file, 'profileImages');
+        updates.profileImage = publicUrl; // Set profile image URL from Firebase
+      } catch (error) {
+        return res.status(500).json({ error: 'Failed to upload profile image to Firebase Storage' });
+      }
     }
 
     const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });
