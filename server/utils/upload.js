@@ -2,8 +2,8 @@ const multer = require('multer');
 const path = require('path');
 
 // Determine the destination directory based on environment
-const courseImagesDir = process.env.COURSE_IMAGES_DIR || 'uploads/courseImages';
-const profileImagesDir = process.env.PROFILE_IMAGES_DIR || 'uploads/profileImages';
+const courseImagesDir = process.env.COURSE_IMAGES_DIR || '/mnt/data/courseImages';
+const profileImagesDir = process.env.PROFILE_IMAGES_DIR || '/mnt/data/profileImages';
 
 // Set storage engine for course images
 const courseStorage = multer.diskStorage({
