@@ -79,6 +79,7 @@ const login = async (req, res, next) => {
 const profile = async (req, res, next) => {
   try {
     const user = {
+      _id: req.user._id,
       profileImage: req.user.profileImage ? req.user.profileImage : null,
       Email: req.user.email,
       Name: req.user.name,
@@ -110,7 +111,7 @@ const signout = async (req, res, next) => {
 // Edit Profile
 const editProfile = async (req, res, next) => {
   try {
-    const { name, email, password, location, nationality, dateOfBirth ,phoneNumber} = req.body;
+    const { name, email, password, location, nationality, dateOfBirth, phoneNumber } = req.body;
     const userId = req.user._id;
 
     const updates = {};
@@ -125,13 +126,14 @@ const editProfile = async (req, res, next) => {
     if (nationality) updates.nationality = nationality;
     if (dateOfBirth) updates.dateOfBirth = dateOfBirth;
     if (phoneNumber) updates.phoneNumber = phoneNumber;
-    
+
     if (req.file) {
       try {
         // Upload profile image to Firebase Storage
         const publicUrl = await uploadToFirebaseStorage(req.file, 'profileImages');
         updates.profileImage = publicUrl; // Set profile image URL from Firebase
       } catch (error) {
+        console.error('Error uploading profile image:', error);
         return res.status(500).json({ error: 'Failed to upload profile image to Firebase Storage' });
       }
     }
@@ -154,9 +156,11 @@ const editProfile = async (req, res, next) => {
 
     res.status(200).json(userProfile);
   } catch (error) {
+    console.error('Error in editProfile:', error);
     res.status(500).json({ error: 'Server error' });
   }
 };
+
 
 // Delete User's Account
 const deleteAccount = async (req, res, next) => {
