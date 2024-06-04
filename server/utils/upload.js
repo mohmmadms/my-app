@@ -1,9 +1,13 @@
 const multer = require('multer');
 const path = require('path');
 
+// Determine the destination directory based on environment
+const courseImagesDir = process.env.COURSE_IMAGES_DIR || 'uploads/courseImages';
+const profileImagesDir = process.env.PROFILE_IMAGES_DIR || 'uploads/profileImages';
+
 // Set storage engine for course images
 const courseStorage = multer.diskStorage({
-  destination: '/opt/render/project/files/courseImages', // Render's persistent storage directory for course images
+  destination: courseImagesDir,
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
   },
@@ -11,7 +15,7 @@ const courseStorage = multer.diskStorage({
 
 // Set storage engine for profile images
 const profileStorage = multer.diskStorage({
-  destination: '/opt/render/project/files/profileImages', // Render's persistent storage directory for profile images
+  destination: profileImagesDir,
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
   },
@@ -33,20 +37,20 @@ function checkFileType(file, cb) {
 // Init upload for course images
 const uploadCourseImage = multer({
   storage: courseStorage,
-  limits: { fileSize: 1000000 }, // Limit file size to 1MB
+  limits: { fileSize: 1000000 },
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
   },
-}).single('courseImage'); // 'courseImage' is the field name
+}).single('courseImage');
 
 // Init upload for profile images
 const uploadProfileImage = multer({
   storage: profileStorage,
-  limits: { fileSize: 1000000 }, // Limit file size to 1MB
+  limits: { fileSize: 1000000 },
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
   },
-}).single('profileImage'); // 'profileImage' is the field name
+}).single('profileImage');
 
 module.exports = {
   uploadCourseImage,

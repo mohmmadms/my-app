@@ -38,7 +38,7 @@ const EnrollButton = ({ courseId }) => {
 
   return (
     <div>
-      <button onClick={() => setShowModal(true)} className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition-colors duration-300">ُEnroll</button>
+      <button onClick={() => setShowModal(true)} className="w-full text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Enroll</button>
 
       {showModal && (
         <div id="popup-modal" tabIndex="-1" className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
@@ -47,7 +47,7 @@ const EnrollButton = ({ courseId }) => {
             <p className="text-gray-700 mb-4">After enrolling soon someone will contact you on your Email or Phone number please make sure to have those correct on your account.</p>
             <div className="flex justify-end">
               <button onClick={() => setShowModal(false)} className="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg">Cancel</button>
-              <button onClick={enrollInCourse} className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg">Enroll</button>
+              <button onClick={enrollInCourse} className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Enroll</button>
             </div>
           </div>
         </div>

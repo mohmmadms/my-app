@@ -47,6 +47,34 @@ function HomePage (){
       <Navbar/>
       <SideBar>
         <HeroSection/>
+        <section className="text-gray-600 dark:bg-gray-900 dark:text-white body-font">
+  <div className="container px-5 py-24 mx-auto">
+    <div className="flex flex-col text-center w-full mb-20">
+      <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 dark:text-white">Explore Our Courses</h1>
+      <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Discover a wide range of courses designed to help you gain new skills, advance your career, and achieve your personal goals.</p>
+    </div>
+    <div className="flex flex-wrap">
+      <div className="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 dark:border-gray-700 border-opacity-60">
+        <h2 className="text-lg sm:text-xl text-gray-900 dark:text-white font-medium title-font mb-2">Expert Instructors</h2>
+        <p className="leading-relaxed text-base mb-4">Learn from experienced instructors who are experts in their fields, providing valuable insights and practical knowledge.</p>
+      </div>
+      <div className="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 dark:border-gray-700 border-opacity-60">
+        <h2 className="text-lg sm:text-xl text-gray-900 dark:text-white font-medium title-font mb-2">Flexible Learning</h2>
+        <p className="leading-relaxed text-base mb-4">Enjoy the flexibility of online learning with courses that fit your schedule, allowing you to learn at your own pace.</p>
+      </div>
+      <div className="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 dark:border-gray-700 border-opacity-60">
+        <h2 className="text-lg sm:text-xl text-gray-900 dark:text-white font-medium title-font mb-2">Comprehensive Resources</h2>
+        <p className="leading-relaxed text-base mb-4">Access a variety of resources, including video lectures, reading materials, and interactive assignments to enhance your learning experience.</p>
+      </div>
+      <div className="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 dark:border-gray-700 border-opacity-60">
+        <h2 className="text-lg sm:text-xl text-gray-900 dark:text-white font-medium title-font mb-2">Achieve Your Goals</h2>
+        <p className="leading-relaxed text-base mb-4">Set and achieve your educational and professional goals with our comprehensive and accessible course offerings.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
       <div className="flex flex-col dark:bg-gray-900">
         <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 ml-4">
           {courses.map(course => (
