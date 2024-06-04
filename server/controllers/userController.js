@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const {uploadToFirebaseStorage} = require('../utils/upload')
 
 // JWT generation
 const generateToken = (userId) => {

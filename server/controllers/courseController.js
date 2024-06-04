@@ -1,4 +1,5 @@
 const  Course  = require("../models/courseModel");
+const {uploadToFirebaseStorage} = require('../utils/upload')
 
 
 const homepageForCourses = async (req, res, next) => {

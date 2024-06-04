@@ -104,4 +104,5 @@ const handleProfileImageUpload = (req, res, next) => {
 module.exports = {
   handleCourseImageUpload,
   handleProfileImageUpload,
+  uploadToFirebaseStorage,
 };
