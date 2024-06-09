@@ -10,7 +10,7 @@ const generateToken = (userId) => {
 
 // Sign Up
 const signup = async (req, res, next) => {
-  const { name, email, password, isAdmin, location, nationality, dateOfBirth ,phoneNumber } = req.body;
+  const { name, email, password, isAdmin, location, nationality, dateOfBirth, phoneNumber } = req.body;
 
   if (!name || !email || !password) {
     return res.status(400).json({ error: 'Please include all fields' });
@@ -23,16 +23,26 @@ const signup = async (req, res, next) => {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+
+    let profileImageUrl = null;
+    if (req.file) {
+      try {
+        const publicUrl = await uploadToFirebaseStorage(req.file, 'profileImages');
+        profileImageUrl = publicUrl; // Set profile image URL from Firebase
+      } catch (error) {
+        console.error('Error uploading profile image:', error);
+        return res.status(500).json({ error: 'Failed to upload profile image to Firebase Storage' });
+      }
+    }
 
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
       isAdmin,
-      profileImage: req.file ? req.file.firebaseUrl : null,
+      profileImage: profileImageUrl,
       location,
       nationality,
       dateOfBirth,
@@ -51,6 +61,7 @@ const signup = async (req, res, next) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
 
 // Login
 const login = async (req, res, next) => {
@@ -130,7 +141,6 @@ const editProfile = async (req, res, next) => {
 
     if (req.file) {
       try {
-        // Upload profile image to Firebase Storage
         const publicUrl = await uploadToFirebaseStorage(req.file, 'profileImages');
         updates.profileImage = publicUrl; // Set profile image URL from Firebase
       } catch (error) {
@@ -161,6 +171,7 @@ const editProfile = async (req, res, next) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
 
 
 // Delete User's Account

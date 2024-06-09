@@ -35,21 +35,18 @@ const homepageForCourses = async (req, res, next) => {
 
 const addNewCourse = async (req, res) => {
   try {
-    // Check if a file was uploaded
-    if (!req.file) {
-      return res.status(400).json({ message: "The 'courseImage' field is required" });
+    const { title, time, location, price, category, startDate, endDate, seats, description, tableOfContent, objectives, outcome } = req.body;
+
+    let courseImageUrl = null;
+    if (req.file) {
+      try {
+        const publicUrl = await uploadToFirebaseStorage(req.file, 'courseImages');
+        courseImageUrl = publicUrl; // Set course image URL from Firebase
+      } catch (error) {
+        return res.status(500).json({ error: 'Failed to upload course image to Firebase Storage' });
+      }
     }
 
-    // Extract data from request body
-    const { title, time, location, price, category, startDate, endDate, seats, description , tableOfContent,objectives ,outcome } = req.body;
-    let courseImageUrl;
-    try {
-      const publicUrl = await uploadToFirebaseStorage(req.file, 'courseImages');
-      courseImageUrl = publicUrl; // Set course image URL from Firebase
-    } catch (error) {
-      return res.status(500).json({ error: 'Failed to upload course image to Firebase Storage' });
-    }
-    // Construct course data object
     const courseData = {
       title,
       time,
@@ -66,16 +63,14 @@ const addNewCourse = async (req, res) => {
       courseImage: courseImageUrl, // Relative path
     };
 
-    // Create new course
     const result = await Course.create(courseData);
 
-    // Respond with the created course
     res.status(201).json(result);
   } catch (error) {
-    // Handle errors
     res.status(500).json({ error: error.message });
   }
-}
+};
+
 
 
 const deleteCourse = async (req, res) => {
@@ -106,43 +101,44 @@ const getCourseById = async (req, res) => {
 
 const updateCourse = async (req, res) => {
   try {
-      const { id } = req.params;
+    const { id } = req.params;
 
-      const updatedData = {
-          title: req.body.title,
-          time: req.body.time,
-          location: req.body.location,
-          tableOfContent :req.body.tableOfContent,
-          objectives: req.body.objectives,
-          outcome: req.body.outcome,
-          price: req.body.price,
-          category: req.body.category,
-          startDate: req.body.startDate,
-          endDate: req.body.endDate,
-          seats: req.body.seats,
-          description: req.body.description,
-      };
+    const updatedData = {
+      title: req.body.title,
+      time: req.body.time,
+      location: req.body.location,
+      tableOfContent: req.body.tableOfContent,
+      objectives: req.body.objectives,
+      outcome: req.body.outcome,
+      price: req.body.price,
+      category: req.body.category,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      seats: req.body.seats,
+      description: req.body.description,
+    };
 
-      if (req.file) {
-        try {
-          const publicUrl = await uploadToFirebaseStorage(req.file, 'courseImages');
-          updatedData.courseImage = publicUrl; // Set course image URL from Firebase
-        } catch (error) {
-          return res.status(500).json({ error: 'Failed to upload course image to Firebase Storage' });
-        }
+    if (req.file) {
+      try {
+        const publicUrl = await uploadToFirebaseStorage(req.file, 'courseImages');
+        updatedData.courseImage = publicUrl; // Set course image URL from Firebase
+      } catch (error) {
+        return res.status(500).json({ error: 'Failed to upload course image to Firebase Storage' });
       }
+    }
 
-      const updatedCourse = await Course.findByIdAndUpdate(id, updatedData, { new: true });
+    const updatedCourse = await Course.findByIdAndUpdate(id, updatedData, { new: true });
 
-      if (!updatedCourse) {
-          return res.status(404).json({ message: 'Course not found' });
-      }
+    if (!updatedCourse) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
 
-      res.status(200).json(updatedCourse);
+    res.status(200).json(updatedCourse);
   } catch (error) {
-      res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
+
 
 
 module.exports = {
