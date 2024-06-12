@@ -59,11 +59,10 @@ const ProfilePageWithEdit = () => {
       router.push('/Login'); 
     }
   }, [router]);
-
+console.log(profileData)
   return (
     <div className="bg-whit dark:bg-gray-900">
     <Navbar />
-    <Sidebar/>
     <div className="container mx-auto py-5">
     <div className="max-w-md mx-auto relative">
       <div className="max-w-md mx-auto">

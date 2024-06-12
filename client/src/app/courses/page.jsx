@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar"
 import SideBar from "../components/SideBar";
 import Link from "next/link";
 import HeroSection from "../components/HeroSection";
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 
 
@@ -45,7 +46,6 @@ function HomePage (){
     return (
       <div className='bg-white dark:bg-gray-900'>
       <Navbar/>
-      <SideBar>
         <HeroSection/>
         <section className="text-gray-600 dark:bg-gray-900 dark:text-white body-font">
   <div className="container px-5 py-24 mx-auto">
@@ -75,28 +75,28 @@ function HomePage (){
 </section>
 
 
-      <div className="flex flex-col dark:bg-gray-900">
-        <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 ml-4">
+
           {courses.map(course => (
-            <div key={course._id} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+           <div key={course._id} className="container mx-auto mb-4">
+           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+             <div className="lg:flex">
+               <img src={course.courseImage} alt="Course" className="w-full lg:w-1/4 rounded-lg mb-4 lg:mb-0 lg:mr-4" style={{ maxWidth: '300px', maxHeight: '300px' }} />
+               <div className="lg:flex-1">
+               <Link href={`courses/${course._id}`}> <h5 className="text-2xl font-bold dark:text-white">{course.title}</h5></Link>
+                 <span className="text-gray-500">{formatDistanceToNow(new Date(course.createdAt), { addSuffix: true })}</span>
+                 <div className="mt-2">
+                   <span className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-white rounded-full px-3 py-1 text-sm">#{course.category}</span>
+                   <span className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-white rounded-full px-3 py-1 text-sm mx-2">{course.tags}</span>
+                   <span className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-white rounded-full px-3 py-1 text-sm">{course.time}</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       ))}
 
-                <img className="object-cover rounded-t-lg h-48 w-full" src={`https://storage.googleapis.com/${course.courseImage.replace('/opt/render/project/files', '/uploads')}`} alt=""  />
-                
+    
 
-              <div className="p-5">
-                  <h5 className="mb-2 text-lg md:text-xl lg:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{course.title}</h5>
-                <Link href={`courses/${course._id}`} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                  Read more
-                  <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                  </svg>
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      </SideBar>
       <Footer />
       
     </div>

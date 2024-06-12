@@ -52,7 +52,6 @@ const ChangePasswordPage = () => {
   return (
     <div className="bg-whit dark:bg-gray-900">
     <Navbar/>
-    <Sidebar/>
     <div className="min-h-screen bg-white dark:bg-gray-900 flex justify-center items-center">
       <div className="container">
         <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">

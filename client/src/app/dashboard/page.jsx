@@ -37,7 +37,6 @@ const Dashboard = () => {
     return (
         <div className='bg-white dark:bg-gray-900'>
           <Navbar />
-          <Sidebar />
           <title>Dashboard</title>
           <h1 className="text-3xl text-purple-500 font-bold text-center my-6">Dashboard</h1>
           <div className="dashboard-style dark:bg-gray-900">
@@ -74,7 +73,7 @@ const Dashboard = () => {
               <div key={course._id} className="container mx-auto mb-4">
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
                   <div className="lg:flex">
-                    <img src={`https://my-app-hp3z.onrender.com/${course.courseImage}`} alt="Course" className="w-full lg:w-1/4 rounded-lg mb-4 lg:mb-0 lg:mr-4" style={{ maxWidth: '300px', maxHeight: '300px' }} />
+                    <img src={course.courseImage} alt="Course" className="w-full lg:w-1/4 rounded-lg mb-4 lg:mb-0 lg:mr-4" style={{ maxWidth: '300px', maxHeight: '300px' }} />
                     <div className="lg:flex-1">
                     <Link href={`courses/${course._id}`}> <h5 className="text-2xl font-bold dark:text-white">{course.title}</h5></Link>
                       <span className="text-gray-500">{formatDistanceToNow(new Date(course.createdAt), { addSuffix: true })}</span>

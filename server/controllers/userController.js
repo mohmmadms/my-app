@@ -30,7 +30,7 @@ const signup = async (req, res, next) => {
     if (req.file) {
       try {
         const publicUrl = await uploadToFirebaseStorage(req.file, 'profileImages');
-        profileImageUrl = publicUrl; // Set profile image URL from Firebase
+        profileImageUrl = publicUrl;
       } catch (error) {
         console.error('Error uploading profile image:', error);
         return res.status(500).json({ error: 'Failed to upload profile image to Firebase Storage' });
@@ -61,6 +61,7 @@ const signup = async (req, res, next) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
 
 
 // Login

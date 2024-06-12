@@ -40,7 +40,7 @@ const ProfilePage = () => {
           <div className="sm:flex xl:block sm:space-x-4 xl:space-x-0 dark:bg-gray-700 p-4 rounded-lg">
             <img
               className="mb-2 w-20 h-20 rounded-2xl shadow-lg shadow-gray-300 dark:shadow-blue-800"
-              src={profileData.profileImage ? `https://my-app-hp3z.onrender.com/${profileData.profileImage}` : "/profile.png"}
+              src={profileData.profileImage ? profileData.profileImage : "/profile.png"}
               alt="profile.png"
             />
             <div>

@@ -31,7 +31,6 @@ const CoursePage = ({ params }) => {
   return (
     <div className='bg-white dark:bg-gray-900'>
     <Navbar/>
-    <Sidebar/>
     <div className="min-h-screen bg-gray-50 flex items-center justify-center dark:bg-gray-900">
       <div className="w-full max-w-4xl p-4">
         {course ? (

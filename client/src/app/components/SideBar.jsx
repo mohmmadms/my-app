@@ -12,10 +12,10 @@ const Sidebar = ({ children }) => {
   useEffect(() => {
    
     const token = localStorage.getItem('token');
-    const isAdmin = localStorage.getItem('isAdmin');
+    const adminStatus = localStorage.getItem('isAdmin');
     const profileImg = localStorage.getItem('profilePic')
     setIsAuthenticated(!!token); 
-    setIsAdmin(!!isAdmin); 
+    setIsAdmin(adminStatus === 'true') 
     setProfileImage(profileImg)
   }, []);
 
@@ -24,7 +24,7 @@ const Sidebar = ({ children }) => {
   };
 
   return (
-    <div className='bg-white dark:bg-gray-900'>
+    <div className='bg-white dark:bg-gray-900 absolute top-0 left-0 mt-1'>
       {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 shadow-lg overflow-y-auto transition-transform duration-300 ease-in-out transform ${
@@ -54,7 +54,7 @@ const Sidebar = ({ children }) => {
         {isAuthenticated && (
         
         <img
-        src= {profileImage ? `https://my-app-hp3z.onrender.com/${profileImage.replace('/opt/render/project/files', '/uploads')}` : "/profile.png"}
+        src= {profileImage ? profileImage : "/profile.png"}
         alt="Profile Picture"
         className="absolute top-0 left-1 mb-2 w-14 h-14 rounded-full shadow-lg shadow-gray-300"
         />
@@ -133,7 +133,7 @@ const Sidebar = ({ children }) => {
             </li>
           )}
           
-          {/* Add more sidebar links here based on user role if needed */}
+    
           {isAdmin && (
             <li className="mb-4">
               <Link href="/dashboard" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -189,11 +189,6 @@ const Sidebar = ({ children }) => {
             </svg>
           </button>
         </nav>
-
-        {/* Main Content */}
-        <main className="flex-1  overflow-y-auto p-4">
-          {children}
-        </main>
       </div>
     </div>
   );

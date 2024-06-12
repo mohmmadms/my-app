@@ -51,6 +51,7 @@ const Signup = () => {
       localStorage.setItem('token', token);
       localStorage.setItem('userId', userId);
       localStorage.setItem('isAdmin', response.data.isAdmin);
+      localStorage.setItem('profilePic', response.data.profileImage);
 
       router.push('/');
     } catch (error) {
