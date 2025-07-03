@@ -1,113 +1,137 @@
-'use client'
+'use client';
+
 import React, { useState, useEffect } from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import AddCourse from '../components/AddCourse';
+import MyModal from '../components/MyModal';
+import EnrolledUsers from '../components/EnrolledUsers';
 import DeleteCourse from '../components/DeleteCourse';
 import EditCourse from '../components/EditCourse';
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/SideBar';
-import Footer from '../components/Footer';
-import EnrolledUsers from '../components/EnrolledUsers';
-import MyModal from '../components/MyModal';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 const Dashboard = () => {
+  const [courses, setCourses] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
 
-    const [courses, setCourses] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [selectedCourseId, setSelectedCourseId] = useState(null);
-
-    useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                const response = await axios.get('https://my-app-hp3z.onrender.com/api/courses/');
-                setCourses(response.data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-        fetchCourses();
-    }, []);
-    const handleOpenModal = (courseId) => {
-      setSelectedCourseId(courseId);
-      setShowModal(true);
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get('https://my-app-hp3z.onrender.com/api/courses/');
+        setCourses(response.data);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
     };
 
-    return (
-        <div className='bg-white dark:bg-gray-900'>
-          <Navbar />
-          <title>Dashboard</title>
-          <h1 className="text-3xl text-purple-500 font-bold text-center my-6">Dashboard</h1>
-          <div className="dashboard-style dark:bg-gray-900">
-            <div className="container mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                  <p className="text-gray-500">Total Courses</p>
-                  <h4 className="text-2xl font-semibold text-blue-500">4805</h4>
-                  <p className="text-sm text-gray-400">+2.5% from last week</p>
-                </div>
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                  <p className="text-gray-500">Total Revenue</p>
-                  <h4 className="text-2xl font-semibold text-red-500">$84,245</h4>
-                  <p className="text-sm text-gray-400">+5.4% from last week</p>
-                </div>
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                  <p className="text-gray-500">Tickets Sold</p>
-                  <h4 className="text-2xl font-semibold text-red-500">84245</h4>
-                  <p className="text-sm text-gray-400">+6.7% from last week</p>
-                </div>
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                  <p className="text-gray-500">Total Customers</p>
-                  <h4 className="text-2xl font-semibold text-green-500">20.3K</h4>
-                  <p className="text-sm text-gray-400">+4.5% from last week</p>
-                </div>
-              </div>
-              <AddCourse />
-            </div>
-          </div>
-          <br />
-          <h3 className="text-xl font-semibold mb-4 ml-20 dark:text-white">Recently Added Courses:</h3>
-          {courses &&
-            courses.map(course => (
-              <div key={course._id} className="container mx-auto mb-4">
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                  <div className="lg:flex">
-                    <img src={course.courseImage} alt="Course" className="w-full lg:w-1/4 rounded-lg mb-4 lg:mb-0 lg:mr-4" style={{ maxWidth: '300px', maxHeight: '300px' }} />
-                    <div className="lg:flex-1">
-                    <Link href={`courses/${course._id}`}> <h5 className="text-2xl font-bold dark:text-white">{course.title}</h5></Link>
-                      <span className="text-gray-500">{formatDistanceToNow(new Date(course.createdAt), { addSuffix: true })}</span>
-                      <div className="mt-2">
-                        <span className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white rounded-full px-3 py-1 text-sm">{course.category}</span>
-                        <span className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white rounded-full px-3 py-1 text-sm mx-2">{course.tags}</span>
-                        <span className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white rounded-full px-3 py-1 text-sm">{course.time}</span>
-                        <MyModal show={showModal} onClose={() => setShowModal(false)}>
-                        </MyModal>
-                      </div>
-                      <div className="mt-4 flex space-x-4">
-                        <DeleteCourse courseId={course._id} />
-                        <EditCourse course={course} />
-                        <button
+    fetchCourses();
+  }, []);
+
+  const handleOpenModal = (courseId) => {
+    setSelectedCourseId(courseId);
+    setShowModal(true);
+  };
+
+  return (
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
+      <Navbar />
+      <title>Dashboard</title>
+
+      {/* Hero Section */}
+      <section className="relative px-6 pt-16 pb-20 text-center bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 dark:from-purple-900 dark:via-indigo-900 dark:to-blue-900 text-white">
+        <motion.h1
+          className="text-4xl md:text-5xl font-extrabold mb-4"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+        >
+          🚀 Welcome to Your Instructor Dashboard
+        </motion.h1>
+        <p className="text-lg max-w-xl mx-auto text-white/80">
+          Manage your courses, engage with learners, and make an impact.
+        </p>
+        <motion.div
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2/3 h-1 bg-white/10 rounded-full"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        />
+      </section>
+
+      <main className="max-w-7xl mx-auto px-6 py-16">
+        <div className="mb-10">
+          <motion.h2
+            className="text-3xl font-bold text-gray-900 dark:text-white mb-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            📚 Manage Your Courses
+          </motion.h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            Easily create, update, or remove your courses below.
+          </p>
+
+          <AddCourse />
+        </div>
+
+        <div className="grid gap-8">
+          {courses.map((course) => (
+            <motion.div
+              key={course._id}
+              className="rounded-xl overflow-hidden shadow-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 transition-all duration-300"
+              whileHover={{ scale: 1.01 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <div className="flex flex-col md:flex-row">
+                <img
+                  src={course.courseImage}
+                  alt={course.title}
+                  className="w-full md:w-1/3 h-56 object-cover"
+                />
+                <div className="p-6 flex-1">
+                  <Link href={`/courses/${course._id}`}>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white hover:underline">
+                      {course.title}
+                    </h3>
+                  </Link>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    Created {formatDistanceToNow(new Date(course.createdAt), { addSuffix: true })}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2 text-sm">
+                    <span className="bg-purple-100 dark:bg-purple-800 text-purple-700 dark:text-purple-300 px-3 py-1 rounded-full">{course.category}</span>
+                    <span className="bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full">{course.tags}</span>
+                    <span className="bg-teal-100 dark:bg-teal-800 text-teal-700 dark:text-teal-300 px-3 py-1 rounded-full">{course.time}</span>
+                  </div>
+                  <div className="mt-4 flex gap-3">
+                    <DeleteCourse courseId={course._id} />
+                    <EditCourse course={course} />
+                    <button
                       onClick={() => handleOpenModal(course._id)}
-                      className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                      type="button"
+                      className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white px-4 py-2 rounded-md text-sm"
                     >
                       View Enrolled Users
                     </button>
-                       
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
-            ))}
-            <MyModal show={showModal} onClose={() => setShowModal(false)}>
-            <EnrolledUsers courseId={selectedCourseId} />
-            </MyModal>
-          <Footer />
+            </motion.div>
+          ))}
         </div>
-      );
-      
+
+        <MyModal show={showModal} onClose={() => setShowModal(false)}>
+          <EnrolledUsers courseId={selectedCourseId} />
+        </MyModal>
+      </main>
+
+      <Footer />
+    </div>
+  );
 };
 
 export default Dashboard;

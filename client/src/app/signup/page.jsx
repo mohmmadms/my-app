@@ -1,129 +1,156 @@
-'use client'
+'use client';
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { motion } from 'framer-motion';
 
 const Signup = () => {
   const router = useRouter();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [location, setLocation] = useState('');
-  const [nationality, setNationality] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [profileImage, setProfileImage] = useState('');
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phoneNumber: '',
+    location: '',
+    nationality: '',
+    dateOfBirth: '',
+  });
+  const [profileImage, setProfileImage] = useState(null);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (password !== confirmPassword) {
+    if (form.password !== form.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
 
     try {
+      setLoading(true);
       const formData = new FormData();
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('password', password);
-      formData.append('location', location);
-      formData.append('nationality', nationality);
-      formData.append('dateOfBirth', dateOfBirth);
-      formData.append('phoneNumber', phoneNumber);
-      formData.append('profileImage', profileImage); // Append profile image
+      Object.entries(form).forEach(([key, val]) => formData.append(key, val));
+      if (profileImage) formData.append('profileImage', profileImage);
 
-      const response = await axios.post('https://my-app-hp3z.onrender.com/api/users/signup', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data' // Set the content type for FormData
-        }
-      });
+      const { data } = await axios.post(
+        'https://my-app-hp3z.onrender.com/api/users/signup',
+        formData,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
 
-      const token = response.data.token;
-      const userId = response.data._id;
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('userId', data._id);
+      localStorage.setItem('isAdmin', data.isAdmin);
+      localStorage.setItem('profilePic', data.profileImage);
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('userId', userId);
-      localStorage.setItem('isAdmin', response.data.isAdmin);
-      localStorage.setItem('profilePic', response.data.profileImage);
-
-      router.push('/');
-    } catch (error) {
-      if (error.response && error.response.status === 400 && error.response.data.message === 'User already exists') {
+      window.location.href = '/';
+    } catch (err) {
+      if (err.response?.data?.message === 'User already exists') {
         setError('User already exists');
       } else {
-        setError('An error occurred');
+        setError('Something went wrong');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="bg-whit dark:bg-gray-900">
-    <Navbar/>
-    <div className="min-h-screen bg-white dark:bg-gray-900 p-0 sm:p-12 flex justify-center items-center">
-      <div className="w-full md:max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-center text-2xl font-bold mb-4">Sign Up</h2>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-5">
-            <label htmlFor="name" className="block text-gray-700">Name:</label>
-            <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+    <div className="bg-white dark:bg-gray-900 min-h-screen">
+      <Navbar />
+      <div className="flex flex-col items-center justify-center px-6 py-10">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full max-w-3xl bg-white dark:bg-gray-800 p-10 rounded-3xl shadow-2xl backdrop-blur-md border border-gray-200 dark:border-gray-700"
+        >
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">
+            Create Your Account
+          </h2>
+
+          {error && (
+            <p className="text-center text-red-500 dark:text-red-400 mb-4">
+              {error}
+            </p>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {[
+              ['name', 'Full Name'],
+              ['email', 'Email', 'email'],
+              ['password', 'Password', 'password'],
+              ['confirmPassword', 'Confirm Password', 'password'],
+              ['phoneNumber', 'Phone Number'],
+              ['location', 'Location'],
+              ['nationality', 'Nationality'],
+              ['dateOfBirth', 'Date of Birth', 'date'],
+            ].map(([id, label, type = 'text']) => (
+              <div key={id}>
+                <label
+                  htmlFor={id}
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
+                  {label}
+                </label>
+                <input
+                  type={type}
+                  name={id}
+                  id={id}
+                  value={form[id]}
+                  onChange={handleChange}
+                  className="mt-1 block w-full px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required={['name', 'email', 'password', 'confirmPassword'].includes(id)}
+                />
+              </div>
+            ))}
+
+            <div>
+              <label
+                htmlFor="profileImage"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Profile Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setProfileImage(e.target.files[0])}
+                className="mt-2 block w-full text-sm text-white file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-300"
+            >
+              {loading ? 'Creating...' : 'Sign Up'}
+            </button>
+          </form>
+
+          <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+            Already have an account?{' '}
+            <Link
+              href="/Login"
+              className="text-blue-600 hover:underline dark:text-blue-400"
+            >
+              Login
+            </Link>
           </div>
-          <div className="mb-5">
-            <label htmlFor="email" className="block text-gray-700">Email:</label>
-            <input type="email" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="password" className="block text-gray-700">Password:</label>
-            <input type="password" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="confirmPassword" className="block text-gray-700">Confirm Password:</label>
-            <input type="password" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-          </div>
-          <div className="mb-5">
-            <label  htmlFor="phoneNumber" className="block text-gray-700">Phone Number:</label>
-            <input type="tel" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="location" className="block text-gray-700">Location:</label>
-            <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="location" value={location} onChange={(e) => setLocation(e.target.value)} />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="nationality" className="block text-gray-700">Nationality:</label>
-            <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="nationality" value={nationality} onChange={(e) => setNationality(e.target.value)} />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="dateOfBirth" className="block text-gray-700">Date of Birth:</label>
-            <input type="date" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="dateOfBirth" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="profileImage" className="block text-gray-700">Profile Image:</label>
-            <input type="file" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200" id="profileImage" accept="image/*" onChange={(e) => setProfileImage(e.target.files[0])} />
-          </div>
-          <div className="mb-5">
-            <button type="submit" className="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-[#63D4D5] hover:bg-[#408D8E] hover:shadow-lg focus:outline-none">Sign Up</button>
-          </div>
-          <div className="text-center mb-5">
-            <p>Or sign up using</p>
-          </div>
-          <hr className="mb-5" />
-          <div className="text-center">
-            <p className="mb-0">Already have an account? <Link href="/Login" className="text-[#63D4D5] hover:text-[#408D8E]">Login</Link></p>
-          </div>
-        </form>
+        </motion.div>
       </div>
-    </div>
-    <Footer/>
+      <Footer />
     </div>
   );
 };
-
 
 export default Signup;

@@ -1,100 +1,136 @@
-"use client";
-import React, { useState } from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 const EditProfileForm = ({ profileData, onSuccess }) => {
-  const router = useRouter();
-  const [name, setName] = useState(profileData.name || '');
-  const [location, setLocation] = useState(profileData.location || '');
-  const [nationality, setNationality] = useState(profileData.nationality || '');
-  const [dateOfBirth, setDateOfBirth] = useState(profileData.dateOfBirth || '');
-  const [phoneNumber, setPhoneNumber] = useState(profileData.dateOfBirth || '');
+  const [form, setForm] = useState({
+    name: profileData.name || '',
+    location: profileData.location || '',
+    nationality: profileData.nationality || '',
+    dateOfBirth: profileData.dateOfBirth || '',
+    phoneNumber: profileData.phoneNumber || '',
+  });
   const [profileImage, setProfileImage] = useState(null);
+  const [previewURL, setPreviewURL] = useState(profileData.profileImage || '/profile.png');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (profileImage) {
+      const url = URL.createObjectURL(profileImage);
+      setPreviewURL(url);
+      return () => URL.revokeObjectURL(url);
+    }
+  }, [profileImage]);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleImageChange = (e) => {
-    setProfileImage(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) setProfileImage(file);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setSuccess(false);
 
     try {
       const token = localStorage.getItem('token');
       const formData = new FormData();
 
-      formData.append('name', name);
-      formData.append('location', location);
-      formData.append('nationality', nationality);
-      formData.append('dateOfBirth', dateOfBirth);
-      formData.append('phoneNumber', phoneNumber);
-      if (profileImage) {
-        formData.append('profileImage', profileImage);
-      }
+      Object.entries(form).forEach(([key, value]) => formData.append(key, value));
+      if (profileImage) formData.append('profileImage', profileImage);
 
       await axios.put(
         `https://my-app-hp3z.onrender.com/api/users/edit-profile/${profileData._id}`,
         formData,
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
           },
         }
       );
 
+      setSuccess(true);
       onSuccess();
-    } catch (error) {
-      setError('Failed to update profile');
+    } catch (err) {
+      setError('Something went wrong while saving.');
     } finally {
       setIsLoading(false);
     }
   };
-console.log(profileData)
-return (
-  <>
-    <h2 className="text-center text-2xl font-semibold mb-4 dark:text-gray-100">Edit Profile</h2>
-    {error && <p className="text-red-500 dark:text-red-400">{error}</p>}
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="profileImage" className="block font-semibold dark:text-white">Profile Image:</label>
-        <input type="file" id="profileImage" accept="image/*" onChange={handleImageChange} />
+
+  return (
+    <motion.form
+      onSubmit={handleSubmit}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="space-y-6"
+    >
+      {/* Image Preview & Upload */}
+      <div className="flex flex-col md:flex-row items-center gap-6">
+        <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-500 shadow">
+          <img src={previewURL} alt="Preview" className="w-full h-full object-cover" />
+        </div>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 text-sm"
+        />
       </div>
-      <div>
-        <label htmlFor="name" className="block font-semibold dark:text-white">Name:</label>
-        <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+
+      {/* Inputs */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {[
+          ['Full Name', 'name', form.name],
+          ['Phone Number', 'phoneNumber', form.phoneNumber],
+          ['Location', 'location', form.location],
+          ['Nationality', 'nationality', form.nationality],
+          ['Date of Birth', 'dateOfBirth', form.dateOfBirth, 'date'],
+        ].map(([label, name, value, type = 'text']) => (
+          <div key={name}>
+            <label
+              htmlFor={name}
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
+              {label}
+            </label>
+            <input
+              type={type}
+              name={name}
+              id={name}
+              value={value}
+              onChange={handleChange}
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white/40 dark:bg-gray-800 backdrop-blur focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-white"
+            />
+          </div>
+        ))}
       </div>
-      <div>
-        <label htmlFor="phoneNumber" className="block font-semibold dark:text-white">Phone Number:</label>
-        <input type="tel" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-      </div>
-      <div>
-        <label htmlFor="location" className="block font-semibold dark:text-white">Location:</label>
-        <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="location" value={location} onChange={(e) => setLocation(e.target.value)} />
-      </div>
-      <div>
-        <label htmlFor="nationality" className="block font-semibold dark:text-white">Nationality:</label>
-        <input type="text" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="nationality" value={nationality} onChange={(e) => setNationality(e.target.value)} />
-      </div>
-      <div>
-        <label htmlFor="dateOfBirth" className="block font-semibold dark:text-white">Date of Birth:</label>
-        <input type="date" className="pt-3 pb-2 block w-full px-4 mt-1 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-gray-300 dark:text-gray-100 border-gray-200 dark:border-gray-700" id="dateOfBirth" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
-      </div>
-      <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md w-full hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" disabled={isLoading}>
+
+      {/* Feedback */}
+      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+      {success && <p className="text-green-500 text-sm text-center">Profile updated successfully!</p>}
+
+      {/* Submit */}
+      <button
+        type="submit"
+        disabled={isLoading}
+        className="w-full py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 font-semibold transition-all duration-300 disabled:opacity-60"
+      >
         {isLoading ? 'Saving...' : 'Save Changes'}
       </button>
-    </form>
-    <div className="mt-3">
-      <Link href="/password" className="text-blue-500 dark:text-blue-400">Change Password</Link>
-    </div>
-  </>
-);
-
+    </motion.form>
+  );
 };
 
 export default EditProfileForm;

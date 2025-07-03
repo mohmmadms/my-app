@@ -1,9 +1,87 @@
+'use client';
+
 import React, { useState } from 'react';
-import MyModal from './MyModal';
 import axios from 'axios';
+import { motion } from 'framer-motion';
+import { FaPlus } from 'react-icons/fa';
+import MyModal from './MyModal';
+
+const Input = ({ label, name, type = 'text', value, onChange }) => (
+  <div className="w-full">
+    <label htmlFor={name} className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-300">
+      {label}
+    </label>
+    <input
+      id={name}
+      name={name}
+      type={type}
+      value={value}
+      onChange={onChange}
+      className="w-full px-4 py-2 rounded-xl bg-white text-gray-900 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 backdrop-blur border border-gray-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  </div>
+);
+
+const Textarea = ({ label, name, value, onChange }) => (
+  <div className="w-full">
+    <label htmlFor={name} className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-300">
+      {label}
+    </label>
+    <textarea
+      id={name}
+      name={name}
+      value={value}
+      onChange={onChange}
+      rows={3}
+      className="w-full px-4 py-2 rounded-xl bg-white text-gray-900 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 backdrop-blur border border-gray-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  </div>
+);
 
 const AddCourse = () => {
-    const [eventData, setEventData] = useState({
+  const [form, setForm] = useState({
+    title: '',
+    time: '',
+    location: '',
+    price: '',
+    category: '',
+    startDate: '',
+    endDate: '',
+    seats: '',
+    description: '',
+    tableOfContent: '',
+    objectives: '',
+    outcome: '',
+  });
+
+  const [courseImage, setCourseImage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e) => {
+    setCourseImage(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    const formData = new FormData();
+    Object.entries(form).forEach(([key, val]) => formData.append(key, val));
+    if (courseImage) formData.append('courseImage', courseImage);
+
+    try {
+      await axios.post('https://my-app-hp3z.onrender.com/api/courses', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setShowModal(false);
+      setForm({
         title: '',
         time: '',
         location: '',
@@ -12,233 +90,91 @@ const AddCourse = () => {
         startDate: '',
         endDate: '',
         seats: '',
-        description:'',
-        tableOfContent:'',
-        objectives:'',
-        outcome:'',
-    });
-    const [courseImage, setCourseImage] = useState(null);
-    const [error, setError] = useState(null);
-    const [showModal, setShowModal] = useState(false);
+        description: '',
+        tableOfContent: '',
+        objectives: '',
+        outcome: '',
+      });
+      setCourseImage(null);
+    } catch (err) {
+      setError('Something went wrong. Try again.');
+    }
+  };
 
-    const handleClose = () => setShowModal(false);
-    const handleOpenModal = () => setShowModal(true);
+  return (
+    <>
+      <motion.button
+        onClick={() => setShowModal(true)}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="flex items-center gap-2 px-6 py-2 text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-full shadow-lg hover:to-pink-500 focus:outline-none"
+      >
+        <FaPlus /> Add Course
+      </motion.button>
 
-    const handleChange = (e) => {
-        const key = e.target.name;
-        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setEventData({ ...eventData, [key]: value });
-    };
+      <MyModal show={showModal} onClose={() => setShowModal(false)}>
+        <motion.form
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="space-y-6 text-white"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+            <Input label="Title" name="title" value={form.title} onChange={handleChange} />
+            <Input label="Time" name="time" value={form.time} onChange={handleChange} />
+            <Input label="Location" name="location" value={form.location} onChange={handleChange} />
+            <Input label="Price" name="price" type="number" value={form.price} onChange={handleChange} />
+            <Input label="Seats" name="seats" type="number" value={form.seats} onChange={handleChange} />
+            <Input label="Start Date" name="startDate" type="date" value={form.startDate} onChange={handleChange} />
+            <Input label="End Date" name="endDate" type="date" value={form.endDate} onChange={handleChange} />
+            <div className="w-full">
+              <label htmlFor="category" className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-300">Category</label>
+<select
+  id="category"
+  name="category"
+  value={form.category}
+  onChange={handleChange}
+  className="w-full px-4 py-2 rounded-xl bg-white text-gray-900 dark:bg-white/10 dark:text-white backdrop-blur border border-gray-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+>
+  <option value="">Select Category</option>
+  <option value="programming">Programming</option>
+  <option value="Electrical Engineering">Electrical Engineering</option>
+  <option value="Software Engineering">Software Engineering</option>
+  <option value="consulting">Consulting</option>
+</select>
 
-    const handleImageChange = (e) => {
-        setCourseImage(e.target.files[0]);
-    };
+            </div>
+          </div>
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const token = localStorage.getItem('token');
-            const formData = new FormData();
-            for (const key in eventData) {
-                formData.append(key, eventData[key]);
-            }
-            if (courseImage) {
-                formData.append('courseImage', courseImage);
-            }
+          <Textarea label="Description" name="description" value={form.description} onChange={handleChange} />
+          <Textarea label="Table of Content" name="tableOfContent" value={form.tableOfContent} onChange={handleChange} />
+          <Textarea label="Objectives" name="objectives" value={form.objectives} onChange={handleChange} />
+          <Textarea label="Outcome" name="outcome" value={form.outcome} onChange={handleChange} />
 
-            const response = await axios.post('https://my-app-hp3z.onrender.com/api/courses', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            console.log('Response:', response.data);
-            setError(null);
-            setShowModal(false);
-            setEventData({
-                title: '',
-                time: '',
-                location: '',
-                price: '',
-                category: '',
-                startDate: '',
-                endDate: '',
-                seats: '',
-                description:'',
-                tableOfContent:'',
-                objectives:'',
-                outcome:'',
-            });
-            setCourseImage(null);
-        } catch (error) {
-            console.error('Error:', error.response.data);
-            setError('An error occurred while adding the event.');
-        }
-    };
+          <div className="space-y-2">
+            <label htmlFor="courseImage" className="block text-sm font-medium mb-1 text-gray-900 dark:text-gray-300">Course Image</label>
+           <input
+  type="file"
+  name="courseImage"
+  onChange={handleImageChange}
+  className="w-full text-sm text-gray-900 dark:text-white file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-blue-500 file:text-white hover:file:bg-blue-600"
+/>
 
-    return (
-        <>
-            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleOpenModal}>
-                Add New Course
-            </button>
-            <MyModal show={showModal} onClose={handleClose}>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="space-y-2">
-                        <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Title</label>
-                        <input
-                            type="text"
-                            id="title"
-                            name="title"
-                            onChange={handleChange}
-                            value={eventData.title}
-                            className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                    <label htmlFor="time" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Time</label>
-                    <input
-                        type="text" 
-                        id="time"
-                        name="time"
-                        onChange={handleChange}
-                        value={eventData.time}
-                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                    />
-                </div>
-                {/* Ensure all form elements have corresponding dark mode styles */}
-                <div className="space-y-2">
-                    <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
-                    <input
-                        type="text"
-                        id="location"
-                        name="location"
-                        onChange={handleChange}
-                        value={eventData.location}
-                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                    />
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
-                    <input
-                        type="number"
-                        id="price"
-                        name="price"
-                        onChange={handleChange}
-                        value={eventData.price}
-                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                    />
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
-                    <select
-                        id="category"
-                        name="category"
-                        onChange={handleChange}
-                        value={eventData.category}
-                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                    >
-                        <option value="">Select Category</option>
-                        <option value="programming">programming</option>
-                        <option value="Electrical Engineering">Electrical Engineering</option>
-                        <option value="Software Engineering">Software Engineering</option>
-                        <option value="consulting">consulting</option>
-                    </select>
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date</label>
-                    <input
-                        type="date"
-                        id="startDate"
-                        name="startDate"
-                        onChange={handleChange}
-                        value={eventData.startDate}
-                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                    />
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300">End Date</label>
-                    <input
-                        type="date"
-                        id="endDate"
-                        name="endDate"
-                        onChange={handleChange}
-                        value={eventData.endDate}
-                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                    />
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="seats" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Seats</label>
-                    <input
-                        type="number"
-                        id="seats"
-                        name="seats"
-                        onChange={handleChange}
-                        value={eventData.seats}
-                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                    />
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
-                    <textarea
-                        id="description"
-                        name="description"
-                        onChange={handleChange}
-                        value={eventData.description}
-                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                        rows="4"
-                    ></textarea>
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="tableOfContent" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Table of Content</label>
-                    <textarea
-                        id="tableOfContent"
-                        name="tableOfContent"
-                        onChange={handleChange}
-                        value={eventData.tableOfContent}
-                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                        rows="4"
-                    ></textarea>
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="objectives" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Objectives</label>
-                    <textarea
-                        id="objectives"
-                        name="objectives"
-                        onChange={handleChange}
-                        value={eventData.objectives}
-                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                        rows="4"
-                    ></textarea>
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="outcome" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Outcome</label>
-                    <textarea
-                        id="outcome"
-                        name="outcome"
-                        onChange={handleChange}
-                        value={eventData.outcome}
-                        className="block w-full p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-                        rows="4"
-                    ></textarea>
-                </div>
-                <div className="space-y-2">
-                    <label htmlFor="courseImage" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Image</label>
-                    <input
-                        type="file"
-                        id="courseImage"
-                        name="courseImage"
-                        onChange={handleImageChange}
-                        className="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-blue-700"
-                    />
-                </div>
-                    <button type="submit" className="w-full text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                        Submit
-                    </button>
-                    {error && <p className="text-red-500 mt-2">{error}</p>}
-                </form>
-            </MyModal>
-        </>
-    );
+          </div>
+
+          <button
+            type="submit"
+            className="w-full mt-4 py-2 bg-green-600 hover:bg-green-700 rounded-xl font-semibold text-white shadow-md transition duration-300"
+          >
+            Submit Course
+          </button>
+
+          {error && <p className="text-red-400 text-sm">{error}</p>}
+        </motion.form>
+      </MyModal>
+    </>
+  );
 };
 
 export default AddCourse;

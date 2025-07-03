@@ -1,22 +1,23 @@
-import React from "react";
+'use client';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 
 const Logout = () => {
-    const router = useRouter();
+  const router = useRouter();
 
-    const handleClick = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('isAdmin');
-        localStorage.removeItem('profilePic')
-        router.push('/');
-    };
+  const handleClick = () => {
+    localStorage.clear();
+   window.location.href = '/';
+  };
 
-    return (
-        <div className="ms-3">
-            <button  className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-1 px-2 rounded-md transition-colors duration-300" onClick={handleClick}>Logout</button>
-        </div>        
-    );
+  return (
+    <button
+      onClick={handleClick}
+      className="bg-gray-300 text-gray-800 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 py-2 px-4 rounded-xl transition duration-300"
+    >
+      Logout
+    </button>
+  );
 };
 
 export default Logout;

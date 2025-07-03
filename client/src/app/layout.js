@@ -1,6 +1,8 @@
 
 import "./globals.css";
-import Footer from "./components/Footer";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
+import { SidebarProvider } from "./components/SideBar";
 
 
 
@@ -12,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body><SidebarProvider>{children}</SidebarProvider></body>
       
     </html>
     

@@ -1,106 +1,240 @@
-'use client'
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar"
-import SideBar from "../components/SideBar";
-import Link from "next/link";
-import HeroSection from "../components/HeroSection";
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { motion } from 'framer-motion';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
+export default function HomePage() {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get(
+          'https://my-app-hp3z.onrender.com/api/courses'
+        );
+        setCourses(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchCourses();
+  }, []);
 
-function HomePage (){
-    const [courses, setCourses] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [showSidebar, setShowSidebar] = useState(false);
-    useEffect(() => {
-      const fetchCourses = async () => {
-        try {
-          const response = await axios.get('https://my-app-hp3z.onrender.com/api/courses');
-          setCourses(response.data);
-          setLoading(false);
-        } catch (error) {
-          setError(error.message);
-          setLoading(false);
-        }
-      };
-  
-      fetchCourses();
-  
-      return () => {
-        // Cleanup function
-      };
-    }, []);
-  
-    if (loading) {
-      return <div>Loading...</div>;
-    }
-  
-    if (error) {
-      return <div>Error: {error}</div>;
-    }
-  console.log(courses)
-    return (
-      <div className='bg-white dark:bg-gray-900'>
-      <Navbar/>
-        <HeroSection/>
-        <section className="text-gray-600 dark:bg-gray-900 dark:text-white body-font">
-  <div className="container px-5 py-24 mx-auto">
-    <div className="flex flex-col text-center w-full mb-20">
-      <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 dark:text-white">Explore Our Courses</h1>
-      <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Discover a wide range of courses designed to help you gain new skills, advance your career, and achieve your personal goals.</p>
-    </div>
-    <div className="flex flex-wrap">
-      <div className="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 dark:border-gray-700 border-opacity-60">
-        <h2 className="text-lg sm:text-xl text-gray-900 dark:text-white font-medium title-font mb-2">Expert Instructors</h2>
-        <p className="leading-relaxed text-base mb-4">Learn from experienced instructors who are experts in their fields, providing valuable insights and practical knowledge.</p>
-      </div>
-      <div className="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 dark:border-gray-700 border-opacity-60">
-        <h2 className="text-lg sm:text-xl text-gray-900 dark:text-white font-medium title-font mb-2">Flexible Learning</h2>
-        <p className="leading-relaxed text-base mb-4">Enjoy the flexibility of online learning with courses that fit your schedule, allowing you to learn at your own pace.</p>
-      </div>
-      <div className="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 dark:border-gray-700 border-opacity-60">
-        <h2 className="text-lg sm:text-xl text-gray-900 dark:text-white font-medium title-font mb-2">Comprehensive Resources</h2>
-        <p className="leading-relaxed text-base mb-4">Access a variety of resources, including video lectures, reading materials, and interactive assignments to enhance your learning experience.</p>
-      </div>
-      <div className="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 dark:border-gray-700 border-opacity-60">
-        <h2 className="text-lg sm:text-xl text-gray-900 dark:text-white font-medium title-font mb-2">Achieve Your Goals</h2>
-        <p className="leading-relaxed text-base mb-4">Set and achieve your educational and professional goals with our comprehensive and accessible course offerings.</p>
-      </div>
+  return (
+    <div className="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 text-gray-900 dark:text-white">
+      <Navbar />
+
+      {/* Hero Section */}
+      <section className="relative px-6 py-32 text-center overflow-hidden">
+        <div className="max-w-4xl mx-auto z-10 relative">
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl sm:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500"
+          >
+            Learn Anytime, Anywhere.
+          </motion.h1>
+          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
+            Discover courses that match your passion and career goals.
+          </p>
+          <Link
+            href="#courses"
+            className="mt-6 inline-block bg-purple-600 hover:bg-purple-700 text-white text-lg px-6 py-3 rounded-full shadow-lg transition"
+          >
+            Explore Courses
+          </Link>
+        </div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-300/10 to-transparent z-0" />
+      </section>
+
+      {/* Features */}
+      <section className="py-20 px-6">
+        <div className="max-w-6xl mx-auto grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              title: 'Expert Instructors',
+              desc: 'Learn from industry professionals with real-world experience.',
+            },
+            {
+              title: 'Flexible Learning',
+              desc: 'Courses that fit your schedule and pace.',
+            },
+            {
+              title: 'Practical Resources',
+              desc: 'Videos, quizzes, and projects to deepen understanding.',
+            },
+            {
+              title: 'Certifications',
+              desc: 'Earn shareable certificates to boost your career.',
+            },
+          ].map((f, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow hover:shadow-xl transition border border-gray-100 dark:border-gray-700"
+            >
+              <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Courses */}
+      <section id="courses" className="px-6 pb-24">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold mb-8 text-center">Our Courses</h2>
+          {loading && <p>Loading...</p>}
+          {error && <p className="text-red-500">Error: {error}</p>}
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {courses.map((course, index) => (
+              <motion.div
+                key={course._id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-lg transition"
+              >
+                <img
+                  src={course.courseImage}
+                  alt="Course"
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <Link
+                    href={`courses/${course._id}`}
+                    className="text-xl font-semibold hover:underline"
+                  >
+                    {course.title}
+                  </Link>
+                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    {formatDistanceToNow(new Date(course.createdAt), { addSuffix: true })}
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-xs">
+                      #{course.category}
+                    </span>
+                    <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-xs">
+                      {course.tags}
+                    </span>
+                    <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-xs">
+                      {course.time}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Testimonials */}
+<section className="px-6 py-20 bg-gradient-to-br from-purple-50 to-white dark:from-gray-800 dark:to-gray-900">
+  <div className="max-w-5xl mx-auto text-center">
+    <h2 className="text-3xl font-bold mb-8">What Our Learners Say</h2>
+    <div className="grid gap-10 md:grid-cols-3">
+      {[
+        {
+          name: 'Sarah M.',
+          quote: 'This platform changed my career. The projects were practical and fun!',
+        },
+        {
+          name: 'Ahmed K.',
+          quote: 'I could finally learn at my own pace and on my own schedule. Love it!',
+        },
+        {
+          name: 'Lisa R.',
+          quote: 'The instructors were amazing, and the community is super helpful.',
+        },
+      ].map((t, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: i * 0.1 }}
+          className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border dark:border-gray-700"
+        >
+          <p className="italic text-gray-700 dark:text-gray-300 mb-4">"{t.quote}"</p>
+          <p className="font-semibold text-purple-600 dark:text-purple-400">{t.name}</p>
+        </motion.div>
+      ))}
     </div>
   </div>
 </section>
 
+{/* Stats Section */}
+<section className="py-20 px-6 bg-white dark:bg-gray-950">
+  <div className="max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-4 gap-10 text-center">
+    {[
+      { label: 'Courses', value: '150+' },
+      { label: 'Students', value: '12,000+' },
+      { label: 'Certifications', value: '10,500+' },
+      { label: 'Mentors', value: '70+' },
+    ].map((stat, i) => (
+      <motion.div
+        key={i}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: i * 0.1 }}
+        className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow"
+      >
+        <h3 className="text-3xl font-bold text-purple-600 dark:text-purple-400">{stat.value}</h3>
+        <p className="mt-2 text-gray-700 dark:text-gray-300">{stat.label}</p>
+      </motion.div>
+    ))}
+  </div>
+</section>
+
+{/* Newsletter */}
 
 
-          {courses.map(course => (
-           <div key={course._id} className="container mx-auto mb-4">
-           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-             <div className="lg:flex">
-               <img src={course.courseImage} alt="Course" className="w-full lg:w-1/4 rounded-lg mb-4 lg:mb-0 lg:mr-4" style={{ maxWidth: '300px', maxHeight: '300px' }} />
-               <div className="lg:flex-1">
-               <Link href={`courses/${course._id}`}> <h5 className="text-2xl font-bold dark:text-white">{course.title}</h5></Link>
-                 <span className="text-gray-500">{formatDistanceToNow(new Date(course.createdAt), { addSuffix: true })}</span>
-                 <div className="mt-2">
-                   <span className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-white rounded-full px-3 py-1 text-sm">#{course.category}</span>
-                   <span className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-white rounded-full px-3 py-1 text-sm mx-2">{course.tags}</span>
-                   <span className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-white rounded-full px-3 py-1 text-sm">{course.time}</span>
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div>
-       ))}
+{/* FAQs */}
+<section className="pt-20 pb-10 px-6 bg-gray-50 dark:bg-gray-800">
 
-    
-
+  <div className="max-w-4xl mx-auto">
+    <h2 className="text-3xl font-bold text-center mb-10">Frequently Asked Questions</h2>
+    <div className="space-y-6">
+      {[
+        {
+          q: 'Can I learn at my own pace?',
+          a: 'Yes! All our courses are self-paced. You can learn anytime, anywhere.',
+        },
+        {
+          q: 'Do I get a certificate after completing a course?',
+          a: 'Absolutely. You’ll receive a shareable certificate upon completion.',
+        },
+        {
+          q: 'Are there any free courses?',
+          a: 'Yes, we offer free intro courses to help you get started.',
+        },
+      ].map((faq, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: i * 0.1 }}
+          className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow border dark:border-gray-700"
+        >
+          <h3 className="font-semibold text-lg text-purple-700 dark:text-purple-400">{faq.q}</h3>
+          <p className="mt-2 text-gray-700 dark:text-gray-300">{faq.a}</p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
       <Footer />
-      
     </div>
   );
 }
-
-export default HomePage;
