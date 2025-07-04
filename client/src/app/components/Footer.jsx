@@ -16,8 +16,8 @@ function Footer() {
         {/* Brand */}
         <div>
           <div className="flex items-center gap-4 mb-4">
-            <img src="/Logo.jpeg" alt="Logo" className="w-10 h-10 rounded-full" />
-            <span className="text-2xl font-bold">Courses</span>
+            <img src="/Logo.png" alt="Logo" className="w-10 h-10 rounded-full" />
+            <span className="text-2xl font-bold">Skill Nest</span>
           </div>
           <p className="text-gray-600 dark:text-gray-400 text-sm">
             Learn new skills and advance your career with our curated collection of high-quality courses.
@@ -63,7 +63,7 @@ function Footer() {
         </div>
       </div>
 
-      <div className="mt-10 border-t border-gray-300 dark:border-gray-700 pt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+      <div className="mt-10 border-t border-gray-300 dark:border-gray-700 pt-6 text-center text-sm text-gray-600 dark:text-gray-400 ">
         © {new Date().getFullYear()} Moh. All rights reserved.
       </div>
     </motion.footer>

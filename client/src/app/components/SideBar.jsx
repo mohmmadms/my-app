@@ -1,6 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useRef,
+  forwardRef,
+} from 'react';
 import Link from 'next/link';
 import Logout from './Logout';
 import ThemeToggle from './ThemeToggle';
@@ -12,26 +19,46 @@ export const useSidebar = () => useContext(SidebarContext);
 
 export const SidebarProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const sidebarRef = useRef(null);
 
   useEffect(() => {
-    // Open sidebar by default only on medium screens and up (>=768px)
     if (typeof window !== 'undefined') {
       const isDesktop = window.innerWidth >= 768;
       setIsSidebarOpen(isDesktop);
     }
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isSidebarOpen &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target) &&
+        window.innerWidth < 768
+      ) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSidebarOpen]);
+
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
   return (
     <SidebarContext.Provider value={{ isSidebarOpen, toggleSidebar }}>
-      <Sidebar />
+      <div className="relative z-50">
+        <Sidebar ref={sidebarRef} />
+      </div>
       {children}
     </SidebarContext.Provider>
   );
 };
 
-const Sidebar = () => {
+const Sidebar = forwardRef((props, ref) => {
   const { isSidebarOpen, toggleSidebar } = useSidebar();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -56,6 +83,7 @@ const Sidebar = () => {
 
   return (
     <motion.aside
+      ref={ref}
       initial={{ x: '-100%' }}
       animate={{ x: isSidebarOpen ? 0 : '-100%' }}
       transition={{ duration: 0.3 }}
@@ -108,6 +136,7 @@ const Sidebar = () => {
       </nav>
     </motion.aside>
   );
-};
+});
 
+Sidebar.displayName = 'Sidebar';
 export default Sidebar;

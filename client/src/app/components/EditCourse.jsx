@@ -138,17 +138,28 @@ const EditCourse = ({ course }) => {
             <div className="w-full">
               <label className="block text-sm text-gray-300 font-medium mb-1">Category</label>
               <select
-                name="category"
-                value={eventData.category}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-xl bg-white/10 backdrop-blur border border-white/20 text-white"
-              >
-                <option value="">Select Category</option>
-                <option value="programming">Programming</option>
-                <option value="Electrical Engineering">Electrical Engineering</option>
-                <option value="Software Engineering">Software Engineering</option>
-                <option value="consulting">Consulting</option>
-              </select>
+  name="category"
+  value={eventData.category}
+  onChange={handleChange}
+  className="w-full px-4 py-2 rounded-xl bg-white text-gray-900 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 backdrop-blur border border-gray-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+>
+  <option className="text-gray-900 dark:text-white bg-white dark:bg-gray-800" value="">
+    Select Category
+  </option>
+  <option className="text-gray-900 dark:text-white bg-white dark:bg-gray-800" value="programming">
+    Programming
+  </option>
+  <option className="text-gray-900 dark:text-white bg-white dark:bg-gray-800" value="Electrical Engineering">
+    Electrical Engineering
+  </option>
+  <option className="text-gray-900 dark:text-white bg-white dark:bg-gray-800" value="Software Engineering">
+    Software Engineering
+  </option>
+  <option className="text-gray-900 dark:text-white bg-white dark:bg-gray-800" value="consulting">
+    Consulting
+  </option>
+</select>
+
             </div>
           </div>
 

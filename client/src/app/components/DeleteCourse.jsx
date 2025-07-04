@@ -13,6 +13,7 @@ const DeleteCourse = ({ courseId }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setShowModal(false);
+      window.location.href = '/dashboard';
     } catch (err) {
       console.error(err.response?.data || 'Delete failed');
     }

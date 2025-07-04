@@ -96,6 +96,7 @@ const AddCourse = () => {
         outcome: '',
       });
       setCourseImage(null);
+      window.location.href = '/dashboard';
     } catch (err) {
       setError('Something went wrong. Try again.');
     }
@@ -135,14 +136,25 @@ const AddCourse = () => {
   name="category"
   value={form.category}
   onChange={handleChange}
-  className="w-full px-4 py-2 rounded-xl bg-white text-gray-900 dark:bg-white/10 dark:text-white backdrop-blur border border-gray-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  className="w-full px-4 py-2 rounded-xl bg-white text-gray-900 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 backdrop-blur border border-gray-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
 >
-  <option value="">Select Category</option>
-  <option value="programming">Programming</option>
-  <option value="Electrical Engineering">Electrical Engineering</option>
-  <option value="Software Engineering">Software Engineering</option>
-  <option value="consulting">Consulting</option>
+  <option className="text-gray-900 dark:text-white bg-white dark:bg-gray-800" value="">
+    Select Category
+  </option>
+  <option className="text-gray-900 dark:text-white bg-white dark:bg-gray-800" value="programming">
+    Programming
+  </option>
+  <option className="text-gray-900 dark:text-white bg-white dark:bg-gray-800" value="Electrical Engineering">
+    Electrical Engineering
+  </option>
+  <option className="text-gray-900 dark:text-white bg-white dark:bg-gray-800" value="Software Engineering">
+    Software Engineering
+  </option>
+  <option className="text-gray-900 dark:text-white bg-white dark:bg-gray-800" value="consulting">
+    Consulting
+  </option>
 </select>
+
 
             </div>
           </div>

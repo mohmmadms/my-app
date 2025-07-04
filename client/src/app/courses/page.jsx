@@ -32,9 +32,8 @@ export default function HomePage() {
 
   return (
     <div className="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 text-gray-900 dark:text-white">
-      <Navbar />
-
       {/* Hero Section */}
+      <Navbar />
       <section className="relative px-6 py-32 text-center overflow-hidden">
         <div className="max-w-4xl mx-auto z-10 relative">
           <motion.h1

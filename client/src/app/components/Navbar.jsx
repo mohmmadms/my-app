@@ -12,7 +12,7 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState([]);
 
   const toggleNavbar = () => setIsOpen(!isOpen);
-  const { toggleSidebar } = useSidebar(); // ⬅️ Use the hook
+  const { toggleSidebar } = useSidebar(); 
 
   const handleInputChange = (e) => setSearchQuery(e.target.value);
 
@@ -45,8 +45,8 @@ const Navbar = () => {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <img src="/Log2o.jpeg" className="h-9 w-9 rounded-full" alt="Logo" />
-          <span className="text-2xl font-bold text-gray-900 dark:text-white">Courses</span>
+          <img src="/Logo.png" className="h-9 w-9 rounded-full" alt="Logo" />
+          <span className="text-2xl font-bold text-gray-900 dark:text-white">Skill Nest</span>
         </Link>
 
         {/* Nav links (center) */}
