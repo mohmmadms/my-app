@@ -54,7 +54,7 @@ const CoursePage = ({ params }) => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-white dark:bg-gray-850 rounded-3xl shadow-2xl p-8 space-y-10"
+            className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 space-y-10"
           >
             {/* Header Section */}
             <div className="flex flex-col lg:flex-row gap-10 items-start">
@@ -67,8 +67,8 @@ const CoursePage = ({ params }) => {
                 <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
                   {course.title}
                 </h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 text-sm text-gray-700 dark:text-gray-300">
-                  <p><strong>🕒 Time:</strong> {course.time}</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 text-sm text-gray-800 dark:text-gray-300">
+                  <p><strong>🕒 Time:</strong> {course.time || 'N/A'}</p>
                   <p><strong>📍 Location:</strong> {course.location}</p>
                   <p><strong>💵 Price:</strong> ${course.price}</p>
                   <p><strong>📚 Category:</strong> {course.category}</p>
@@ -84,18 +84,37 @@ const CoursePage = ({ params }) => {
               ['Description', course.description],
               ['Objectives', course.objectives],
               ['Outcomes', course.outcome],
-              ['Table of Content', course.tableOfContent],
+              ['Table of Content', course.tableOfContent]
             ].map(([label, value]) => (
               <section
                 key={label}
-                className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow border border-gray-100 dark:border-gray-700"
+                className="bg-neutral-100 dark:bg-neutral-800 rounded-xl p-6 shadow border border-gray-200 dark:border-gray-700 transition-all"
               >
-                <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white border-b pb-1 border-gray-200 dark:border-gray-700">
+                <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white border-b pb-1 border-gray-300 dark:border-gray-600">
                   {label}
                 </h2>
                 <ul className="space-y-2">{renderList(value)}</ul>
               </section>
             ))}
+
+            {/* Quizzes Section (if present) */}
+            {course.quizzes && course.quizzes.length > 0 && (
+              <section className="bg-purple-50 dark:bg-gray-800 rounded-xl p-6 shadow border border-purple-200 dark:border-purple-700">
+                <h2 className="text-xl font-semibold mb-4 text-purple-900 dark:text-purple-300">Quiz Preview</h2>
+                {course.quizzes.map((quiz, index) => (
+                  <div key={index} className="mb-6">
+                    <p className="font-semibold text-gray-900 dark:text-white mb-2">
+                      Q{index + 1}: {quiz.question}
+                    </p>
+                    <ul className="space-y-1 text-sm text-gray-800 dark:text-gray-300 ml-4 list-disc">
+                      {quiz.options.map((opt, i) => (
+                        <li key={i}>{opt}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </section>
+            )}
 
             {/* CTA Button */}
             <div className="text-center pt-4">
@@ -104,6 +123,7 @@ const CoursePage = ({ params }) => {
           </motion.div>
         )}
       </main>
+
       <Footer />
     </div>
   );

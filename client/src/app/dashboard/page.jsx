@@ -12,6 +12,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import GenerateCourse from '../components/GenerateCourse';
 
 const Dashboard = () => {
   const [courses, setCourses] = useState([]);
@@ -62,6 +63,7 @@ const Dashboard = () => {
         />
       </section>
 
+
       <main className="max-w-7xl mx-auto px-6 py-16">
         <div className="mb-10">
           <motion.h2
@@ -76,8 +78,24 @@ const Dashboard = () => {
             Easily create, update, or remove your courses below.
           </p>
 
-          <AddCourse />
-        </div>
+           {/* Manual Course Creation */}
+    <AddCourse />
+
+    {/* Divider */}
+    <div className="my-6 border-t border-gray-300 dark:border-gray-700"></div>
+
+    {/* AI Course Generator */}
+    <motion.h3
+      className="text-2xl font-semibold text-gray-900 dark:text-white mb-3"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
+    >
+      🤖 Generate Course Using AI
+    </motion.h3>
+    <GenerateCourse onCourseCreated={(newCourse) => setCourses([newCourse, ...courses])} />
+  </div>
+      
 
         <div className="grid gap-8">
           {courses.map((course) => (
