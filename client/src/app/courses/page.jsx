@@ -5,8 +5,8 @@ import axios from 'axios';
 import Link from 'next/link';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { motion } from 'framer-motion';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState([]);
