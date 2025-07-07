@@ -3,7 +3,7 @@ Welcome to **skillNest**, a dynamic and modern full-stack web platform for learn
 ---
 
 ## 🚀 Features 
-## to try admin features please contact me on my email : mohmmadmms20@gmail.com
+## to try admin features please contact me on my email : mohmmadmms20@gmail.com or from the website through contact page :)
 
 
 ### 🎓 Course Management
