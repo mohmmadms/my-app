@@ -30,7 +30,7 @@ export default function GenerateCourse({ onCourseCreated }) {
     setErrorMsg('');
 
     try {
-      const response = await axios.post('https://my-app-hp3z.onrender.com/courses/api/generate', {
+      const response = await axios.post('https://my-app-hp3z.onrender.com/api/generate', {
         topic: finalTopic,
       });
       setSuccessMsg('✅ Course generated successfully!');
