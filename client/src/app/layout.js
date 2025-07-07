@@ -7,7 +7,7 @@ import { SidebarProvider } from "./components/SideBar";
 
 
 export const metadata = {
-  title: "Courses",
+  title: "Skill Nest",
   description: "courses enrollment app",
 };
 
