@@ -17,10 +17,11 @@ const port = process.env.PORT
 
 
 app.use(cors({
-  origin: 'https://my-app-e7407p11a-mohmmad-s-projects-f66558a0.vercel.app',
+  origin: 'https://my-app-fe.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
+
 app.use(express.urlencoded({ extended: false }));//true
 
 //build-in middleware 
