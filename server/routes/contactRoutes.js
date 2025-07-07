@@ -22,7 +22,7 @@ router.post('/contact', async (req, res) => {
       from: `"${name}" <${email}>`,
       to: process.env.SMTP_EMAIL, 
       subject: `📩 New message from ${name}`,
-      text: message,
+      text: `You received a new message from ${name} (${email}):\n\n${message}`,
     });
 
     res.status(200).json({ message: 'Message sent successfully' });
